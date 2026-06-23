@@ -51,6 +51,7 @@
   display: flex;
   flex-direction: column;
   gap: clamp(20px, 3vw, 32px);
+  padding: 120px 0;
 }
 
 .section {
