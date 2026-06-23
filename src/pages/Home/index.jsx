@@ -48,25 +48,25 @@ const DECISIONS = [
   {
     title: 'Push brief, not dashboard.',
     body: "The Deals module's inspection model failed because it required *deliberate intent*. Push delivery met reps in their existing morning behaviour. *Trade-off accepted:* A brief is less flexible than a dashboard. Reps who prefer to investigate on their own terms get a worse experience. That population was not the primary use case — **the target was the rep who was not going to investigate at all**.",
-    image: '/ai-brief-01.png',
+    image: 'ai-brief-01.png',
     alt: 'AI brief interface',
-    bg: '/bg-01.png',
+    bg: 'bg-01.png',
     reversed: true,
   },
   {
     title: 'Behavioural signals, not record fields.',
     body: "Stage and close date are *lagging* and *socially gamed*. Interaction gaps, single-threading, and meeting cancellations are *leading* and harder to fabricate. *Trade-off accepted:* Signal quality degrades in low-capture environments. This created a tiered value proposition — the brief performs better for organisations with better activity capture — and required **per-deal confidence indicators** to avoid misleading reps in low-data conditions.",
-    image: '/ai-brief-02.png',
+    image: 'ai-brief-02.png',
     alt: 'Behavioural signals interface',
-    bg: '/bg-02.png',
+    bg: 'bg-02.png',
     reversed: false,
   },
   {
     title: 'Every flag paired with a specific executable action.',
     body: "Every competing platform studied flagged risk and left recovery to the rep. The JOLT framework (Dixon & McKenna) and Rateb et al. (2025) identified specific stage-appropriate recovery actions: multi-threading, mutual action plan reactivation, executive sponsor engagement, decision-forcing communication. ***A flag without a next step generates anxiety. A flag with a next step generates direction.*** *Trade-off accepted:* Recommended actions make assumptions about deal context that will sometimes be wrong. Override had to be frictionless — one tap — and the brief had to frame itself explicitly as a starting point, not a directive.",
-    image: '/ai-brief-04.png',
+    image: 'ai-brief-04.png',
     alt: 'Every flag paired with a specific executable action.',
-    bg: '/bg-03.png',
+    bg: 'bg-03.png',
     reversed: true,
   },
   {
@@ -74,7 +74,7 @@ const DECISIONS = [
     body: '"Last buyer reply: 18 days ago. Close date pushed twice in 30 days. One contact engaged." A rep can evaluate, disagree, or act on that. **They cannot evaluate a score of 34.** HubSpot\'s AI Deal Score — the most explainable feature in the competitive analysis — showed top-five key factors with ± direction. Every other platform showed a score with "top factors" at best. *Trade-off accepted:* Factor-level explanations require more space and cognitive investment per deal. The information hierarchy had to be enforced strictly: *action first, reason second, supporting signals on demand*.',
     image: null,
     alt: '',
-    bg: '/bg-04.png',
+    bg: 'bg-04.png',
     reversed: false,
   },
   {
@@ -82,7 +82,7 @@ const DECISIONS = [
     body: "Qualification and disqualification judgment, forecast commits, and deal strategy stayed **fully human-controlled**. Automated actions on high-stakes decisions triggered the most severe aversion responses when wrong (PSAA framework, Habel et al., 2023; Rangarajan et al., 2026). *Trade-off accepted:* The brief could not autonomously close the loop. A rep who received a flag and did nothing would see the deal continue to decay. **This was a known, acceptable failure mode.** The brief improved the odds of intervention. *It couldn't guarantee it.*",
     image: null,
     alt: '',
-    bg: '/bg-05.png',
+    bg: 'bg-05.png',
     reversed: true,
   },
 ];
@@ -119,6 +119,8 @@ const renderText = (text) => {
     return part;
   });
 };
+
+const BASE = import.meta.env.BASE_URL;
 
 const Home = () => {
   const constraintsRef = useRef(null);
@@ -211,7 +213,7 @@ const Home = () => {
         <div className={styles.sectionBlock}>
           <div className={styles.principlesContainer} data-reveal="scale">
             <div className={styles.image8Parent}>
-              <img className={styles.image8Icon} src="/ai-brief-03.png" alt="Deal header" />
+              <img className={styles.image8Icon} src={`${BASE}ai-brief-03.png`} alt="Deal header" />
             </div>
           </div>
         </div>
@@ -220,7 +222,7 @@ const Home = () => {
         <div className={styles.sectionBlock}>
           <div className={styles.principlesContainer} data-reveal="scale">
             <div className={styles.image6Parent}>
-              <img className={styles.image6Icon} src="/cluster.png" alt="Deal decay cluster diagram" />
+              <img className={styles.image6Icon} src={`${BASE}cluster.png`} alt="Deal decay cluster diagram" />
               <div className={styles.theActualProblemHadThreeCParent}>
                 <div className={styles.theActualProblem}>The actual problem had three compounding layers:</div>
                 <div className={styles.frameParent}>
@@ -304,9 +306,9 @@ const Home = () => {
                   </div>
                   <div
                     className={styles.principleVisual}
-                    style={{ backgroundImage: `url(${d.bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                    style={{ backgroundImage: `url(${BASE}${d.bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
                   >
-                    {d.image && <img className={styles.principleImage} src={d.image} alt={d.alt} />}
+                    {d.image && <img className={styles.principleImage} src={`${BASE}${d.image}`} alt={d.alt} />}
                   </div>
                 </div>
               ))}
