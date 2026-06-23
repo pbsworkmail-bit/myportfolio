@@ -9,6 +9,7 @@ body {
   background-color: #faf9f5;
   color: #0d0d0d;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 /* ── Scroll reveal ── */
