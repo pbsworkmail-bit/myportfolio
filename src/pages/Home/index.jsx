@@ -198,6 +198,15 @@ const Home = () => {
 
       <div className={styles.content}>
 
+        {/* Block 1b: Image */}
+        <div className={styles.sectionBlock}>
+          <div className={styles.principlesContainer} data-reveal="scale">
+            <div className={styles.image8Parent}>
+              <img className={styles.image8Icon} src={`${BASE}ai-brief-03.png`} alt="Deal header" />
+            </div>
+          </div>
+        </div>
+
         {/* Block 1: The Problem */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
@@ -205,15 +214,6 @@ const Home = () => {
             <div className={styles.sectionTitle}>The Problem Wasn't Data Quality. It Was Perception Architecture.</div>
             <div className={styles.bodyText}>
               <p className={styles.paragraph}>{renderText('The original brief was "improve deal health visibility." That framing would have produced a dashboard — which would have failed for the same reason every CRM dashboard fails: it requires *deliberate intent* to open it, from *the people least likely to open it voluntarily*.')}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Block 1b: Image */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.principlesContainer} data-reveal="scale">
-            <div className={styles.image8Parent}>
-              <img className={styles.image8Icon} src={`${BASE}ai-brief-03.png`} alt="Deal header" />
             </div>
           </div>
         </div>
