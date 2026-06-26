@@ -124,7 +124,7 @@ const BASE = import.meta.env.BASE_URL;
 
 const Home = () => {
   const constraintsRef = useRef(null);
-  const [activeLayer, setActiveLayer] = useState(null);
+  const [activeLayer, setActiveLayer] = useState(0);
 
   useEffect(() => {
     const el = constraintsRef.current;
@@ -192,7 +192,8 @@ const Home = () => {
       <div className={styles.hero}>
         <div className={styles.heroContent}>
           <div className={styles.heroTag} data-reveal>A seller-activation layer for a B2B CRM Deals module</div>
-          <div className={styles.heroTitle} data-reveal data-delay="1">The Briefing That Arrives Before the Meeting</div>
+          <div className={styles.heroTitle} data-reveal data-delay="1">The Problem Wasn't Data Quality. It Was Perception Architecture.</div>
+          <div className={styles.bodyText} data-reveal data-delay="2">{renderText('The original brief was "improve deal health visibility." That framing would have produced a dashboard — which would have failed for the same reason every CRM dashboard fails: it requires *deliberate intent* to open it, from *the people least likely to open it voluntarily*.')}</div>
         </div>
       </div>
 
@@ -207,14 +208,11 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Block 1: The Problem */}
+        {/* Block 2b: Quote */}
         <div className={styles.sectionBlock}>
-          <div className={styles.section} data-reveal>
-            <div className={styles.sectionLabel}>Overline</div>
-            <div className={styles.sectionTitle}>The Problem Wasn't Data Quality. It Was Perception Architecture.</div>
-            <div className={styles.bodyText}>
-              <p className={styles.paragraph}>{renderText('The original brief was "improve deal health visibility." That framing would have produced a dashboard — which would have failed for the same reason every CRM dashboard fails: it requires *deliberate intent* to open it, from *the people least likely to open it voluntarily*.')}</p>
-            </div>
+          <div className={styles.quoteBlock} data-reveal>
+            <div className={styles.dealDecayIs}>"Deal decay is a perception and behavioural problem before it is a data problem. The signals are often already in the system. The failure is in how — and whether — they're surfaced."</div>
+            <div className={styles.quoteLabel}>The reframe</div>
           </div>
         </div>
 
@@ -235,24 +233,16 @@ const Home = () => {
                         <div className={styles.silentDeterioration}>{layer.title}</div>
                         <span className={styles.accordionToggle}>{activeLayer === i ? '−' : '+'}</span>
                       </div>
-                      {activeLayer === i && (
-                        <div className={styles.accordionBody}>
+                      <div className={`${styles.accordionBody}${activeLayer === i ? ` ${styles.accordionBodyOpen}` : ''}`}>
+                        <div className={styles.accordionInner}>
                           <div className={styles.stageAmountAnd}>{renderText(layer.body)}</div>
                         </div>
-                      )}
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Block 2b: Quote */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.quoteBlock} data-reveal>
-            <div className={styles.dealDecayIs}>"Deal decay is a perception and behavioural problem before it is a data problem. The signals are often already in the system. The failure is in how — and whether — they're surfaced."</div>
-            <div className={styles.quoteLabel}>The reframe</div>
           </div>
         </div>
 
@@ -271,55 +261,57 @@ const Home = () => {
 
         {/* Block 3b: User Flow */}
         <div className={styles.sectionBlock}>
-          <div className={styles.userflowMeta} data-reveal>
-            <div className={styles.userflowDesc}>
-              Trial vs. Final experience for AI-generated deal briefs — mapping goals, user actions, system responses, decision points, edge cases & outcomes.
-            </div>
-            <div className={styles.userflowCols}>
-              <div className={styles.userflowCol}>
-                <div className={styles.userflowColTitle}>Trial Experience</div>
-                <div className={styles.userflowRow}>
-                  <span className={styles.userflowKey}>User goal</span>
-                  <span className={styles.userflowVal}>Spot at-risk deals before they slip</span>
-                </div>
-                <div className={styles.userflowRow}>
-                  <span className={styles.userflowKey}>Entry</span>
-                  <span className={styles.userflowVal}>Workday start · no prompts shown</span>
-                </div>
-                <div className={styles.userflowRow}>
-                  <span className={styles.userflowKey}>Depends on</span>
-                  <span className={styles.userflowVal}>Rep self-motivation + dashboard data</span>
-                </div>
-              </div>
-              <div className={styles.userflowCol}>
-                <div className={styles.userflowColTitle}>Final Experience</div>
-                <div className={styles.userflowRow}>
-                  <span className={styles.userflowKey}>User goal</span>
-                  <span className={styles.userflowVal}>Same — act on at-risk deals, effortlessly</span>
-                </div>
-                <div className={styles.userflowRow}>
-                  <span className={styles.userflowKey}>Entry</span>
-                  <span className={styles.userflowVal}>Workday start · brief already waiting</span>
-                </div>
-                <div className={styles.userflowRow}>
-                  <span className={styles.userflowKey}>Depends on</span>
-                  <span className={styles.userflowVal}>AI monitoring deals continuously</span>
-                </div>
-              </div>
-            </div>
-          </div>
           <div className={styles.principlesContainer} data-reveal="scale">
             <div className={styles.userflowImages}>
-              <img
-                className={styles.userflowImg}
-                src={`${BASE}userflow-01.png`}
-                alt="Trial experience user flow: rep must proactively open CRM, search for deals, interpret data manually, and form their own risk assessment — action is inconsistent and rarely reached"
-              />
-              <img
-                className={styles.userflowImg}
-                src={`${BASE}userflow-02.png`}
-                alt="Final experience user flow: AI brief is generated and delivered automatically at workday start, rep reads risk and next step in-context, then acts immediately — no drop-off"
-              />
+              <div className={styles.userflowDesc}>
+                Trial vs. Final experience for AI-generated deal briefs — mapping goals, user actions, system responses, decision points, edge cases & outcomes.
+              </div>
+              <div className={styles.userflowCols}>
+                <div className={styles.userflowCol}>
+                  <div className={styles.userflowColMeta}>
+                    <div className={styles.userflowColTitle}>Trial Experience</div>
+                    <div className={styles.userflowRow}>
+                      <span className={styles.userflowKey}>User goal</span>
+                      <span className={styles.userflowVal}>Spot at-risk deals before they slip</span>
+                    </div>
+                    <div className={styles.userflowRow}>
+                      <span className={styles.userflowKey}>Entry</span>
+                      <span className={styles.userflowVal}>Workday start · no prompts shown</span>
+                    </div>
+                    <div className={styles.userflowRow}>
+                      <span className={styles.userflowKey}>Depends on</span>
+                      <span className={styles.userflowVal}>Rep self-motivation + dashboard data</span>
+                    </div>
+                  </div>
+                  <img
+                    className={styles.userflowImg}
+                    src={`${BASE}userflow-01.png`}
+                    alt="Trial experience user flow: rep must proactively open CRM, search for deals, interpret data manually, and form their own risk assessment — action is inconsistent and rarely reached"
+                  />
+                </div>
+                <div className={styles.userflowCol}>
+                  <div className={styles.userflowColMeta}>
+                    <div className={styles.userflowColTitle}>Final Experience</div>
+                    <div className={styles.userflowRow}>
+                      <span className={styles.userflowKey}>User goal</span>
+                      <span className={styles.userflowVal}>Same — act on at-risk deals, effortlessly</span>
+                    </div>
+                    <div className={styles.userflowRow}>
+                      <span className={styles.userflowKey}>Entry</span>
+                      <span className={styles.userflowVal}>Workday start · brief already waiting</span>
+                    </div>
+                    <div className={styles.userflowRow}>
+                      <span className={styles.userflowKey}>Depends on</span>
+                      <span className={styles.userflowVal}>AI monitoring deals continuously</span>
+                    </div>
+                  </div>
+                  <img
+                    className={styles.userflowImg}
+                    src={`${BASE}userflow-02.png`}
+                    alt="Final experience user flow: AI brief is generated and delivered automatically at workday start, rep reads risk and next step in-context, then acts immediately — no drop-off"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -146,7 +146,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  padding: 0 clamp(20px, 5vw, 60px);
+  padding: 0;
   box-sizing: border-box;
   gap: clamp(24px, 4vw, 40px);
   text-align: left;
@@ -250,13 +250,21 @@
 }
 
 .accordionBody {
-  padding-top: 4px;
-  animation: accordionIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes accordionIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+.accordionBodyOpen {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.accordionInner {
+  overflow: hidden;
+  padding-top: 4px;
 }
 
 /* ── Quote ── */
@@ -518,13 +526,18 @@
 }
 
 /* ── User Flow ── */
-.userflowMeta {
+.userflowImages {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: clamp(24px, 3vw, 40px);
+  background-color: #E6E4E0;
+  border-radius: 12px;
+  padding: clamp(20px, 4vw, 60px);
+  box-sizing: border-box;
 }
 
 .userflowDesc {
+  max-width: 40%;
   font-size: clamp(14px, 1.6vw, 16px);
   line-height: 161.8%;
   font-family: Inter, sans-serif;
@@ -533,15 +546,22 @@
 
 .userflowCols {
   display: flex;
-  gap: clamp(24px, 5vw, 60px);
+  gap: clamp(32px, 18vw, 240px);
+  align-items: flex-start;
 }
 
 .userflowCol {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: clamp(20px, 2.5vw, 32px);
   min-width: 0;
+}
+
+.userflowColMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .userflowColTitle {
@@ -574,18 +594,7 @@
   color: #404040;
 }
 
-.userflowImages {
-  display: flex;
-  gap: clamp(16px, 2.5vw, 40px);
-  background-color: #E6E4E0;
-  border-radius: 12px;
-  padding: clamp(20px, 4vw, 60px);
-  box-sizing: border-box;
-  align-items: flex-start;
-}
-
 .userflowImg {
-  flex: 1;
   width: 100%;
   height: auto;
   display: block;
@@ -599,7 +608,6 @@
   .image6Parent {
     flex-direction: column;
     align-items: flex-start;
-    padding: 0 clamp(16px, 4vw, 24px);
     gap: 24px;
   }
 
@@ -645,13 +653,13 @@
     padding: 0 clamp(16px, 4vw, 24px);
   }
 
-  .userflowCols {
-    flex-direction: column;
-    gap: 24px;
+  .userflowDesc {
+    max-width: 100%;
   }
 
-  .userflowImages {
+  .userflowCols {
     flex-direction: column;
+    gap: 32px;
   }
 }
 
