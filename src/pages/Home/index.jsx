@@ -269,6 +269,61 @@ const Home = () => {
           </div>
         </div>
 
+        {/* Block 3b: User Flow */}
+        <div className={styles.sectionBlock}>
+          <div className={styles.userflowMeta} data-reveal>
+            <div className={styles.userflowDesc}>
+              Trial vs. Final experience for AI-generated deal briefs — mapping goals, user actions, system responses, decision points, edge cases & outcomes.
+            </div>
+            <div className={styles.userflowCols}>
+              <div className={styles.userflowCol}>
+                <div className={styles.userflowColTitle}>Trial Experience</div>
+                <div className={styles.userflowRow}>
+                  <span className={styles.userflowKey}>User goal</span>
+                  <span className={styles.userflowVal}>Spot at-risk deals before they slip</span>
+                </div>
+                <div className={styles.userflowRow}>
+                  <span className={styles.userflowKey}>Entry</span>
+                  <span className={styles.userflowVal}>Workday start · no prompts shown</span>
+                </div>
+                <div className={styles.userflowRow}>
+                  <span className={styles.userflowKey}>Depends on</span>
+                  <span className={styles.userflowVal}>Rep self-motivation + dashboard data</span>
+                </div>
+              </div>
+              <div className={styles.userflowCol}>
+                <div className={styles.userflowColTitle}>Final Experience</div>
+                <div className={styles.userflowRow}>
+                  <span className={styles.userflowKey}>User goal</span>
+                  <span className={styles.userflowVal}>Same — act on at-risk deals, effortlessly</span>
+                </div>
+                <div className={styles.userflowRow}>
+                  <span className={styles.userflowKey}>Entry</span>
+                  <span className={styles.userflowVal}>Workday start · brief already waiting</span>
+                </div>
+                <div className={styles.userflowRow}>
+                  <span className={styles.userflowKey}>Depends on</span>
+                  <span className={styles.userflowVal}>AI monitoring deals continuously</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.principlesContainer} data-reveal="scale">
+            <div className={styles.userflowImages}>
+              <img
+                className={styles.userflowImg}
+                src={`${BASE}userflow-01.png`}
+                alt="Trial experience user flow: rep must proactively open CRM, search for deals, interpret data manually, and form their own risk assessment — action is inconsistent and rarely reached"
+              />
+              <img
+                className={styles.userflowImg}
+                src={`${BASE}userflow-02.png`}
+                alt="Final experience user flow: AI brief is generated and delivered automatically at workday start, rep reads risk and next step in-context, then acts immediately — no drop-off"
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Block 4: Constraints */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>

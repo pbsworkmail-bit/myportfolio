@@ -517,6 +517,81 @@
   color: #404040;
 }
 
+/* ── User Flow ── */
+.userflowMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.userflowDesc {
+  font-size: clamp(14px, 1.6vw, 16px);
+  line-height: 161.8%;
+  font-family: Inter, sans-serif;
+  color: #404040;
+}
+
+.userflowCols {
+  display: flex;
+  gap: clamp(24px, 5vw, 60px);
+}
+
+.userflowCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.userflowColTitle {
+  font-size: clamp(15px, 1.5vw, 17px);
+  font-family: 'Crimson Pro', serif;
+  color: #0d0d0d;
+  margin-bottom: 6px;
+}
+
+.userflowRow {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.userflowKey {
+  flex: 0 0 80px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b0b0ac;
+  font-family: Inter, sans-serif;
+}
+
+.userflowVal {
+  font-size: 13px;
+  line-height: 1.55;
+  font-family: Inter, sans-serif;
+  color: #404040;
+}
+
+.userflowImages {
+  display: flex;
+  gap: clamp(16px, 2.5vw, 40px);
+  background-color: #E6E4E0;
+  border-radius: 12px;
+  padding: clamp(20px, 4vw, 60px);
+  box-sizing: border-box;
+  align-items: flex-start;
+}
+
+.userflowImg {
+  flex: 1;
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
 /* ── Responsive breakpoints ── */
 
 /* Tablet: stack full-bleed side-by-side sections */
@@ -568,6 +643,15 @@
     flex-direction: column;
     gap: 48px;
     padding: 0 clamp(16px, 4vw, 24px);
+  }
+
+  .userflowCols {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .userflowImages {
+    flex-direction: column;
   }
 }
 
