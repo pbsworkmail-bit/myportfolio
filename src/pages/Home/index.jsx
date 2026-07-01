@@ -48,23 +48,25 @@ const DECISIONS = [
   {
     title: 'Push brief, not dashboard.',
     body: "The Deals module's inspection model failed because it required *deliberate intent*. Push delivery met reps in their existing morning behaviour. *Trade-off accepted:* A brief is less flexible than a dashboard. Reps who prefer to investigate on their own terms get a worse experience. That population was not the primary use case — **the target was the rep who was not going to investigate at all**.",
-    image: 'ai-brief-01.png',
-    alt: 'AI brief interface',
-    bg: 'bg-01.png',
+    image: 'wireframe-01.png',
+    alt: 'Push brief wireframe',
+    bg: null,
     reversed: true,
+    fullBleed: true,
   },
   {
     title: 'Behavioural signals, not record fields.',
     body: "Stage and close date are *lagging* and *socially gamed*. Interaction gaps, single-threading, and meeting cancellations are *leading* and harder to fabricate. *Trade-off accepted:* Signal quality degrades in low-capture environments. This created a tiered value proposition — the brief performs better for organisations with better activity capture — and required **per-deal confidence indicators** to avoid misleading reps in low-data conditions.",
-    image: 'ai-brief-02.png',
+    image: 'wireframe-03.png',
     alt: 'Behavioural signals interface',
-    bg: 'bg-02.png',
+    bg: null,
     reversed: false,
+    fullBleed: true,
   },
   {
     title: 'Every flag paired with a specific executable action.',
     body: "Every competing platform studied flagged risk and left recovery to the rep. The JOLT framework (Dixon & McKenna) and Rateb et al. (2025) identified specific stage-appropriate recovery actions: multi-threading, mutual action plan reactivation, executive sponsor engagement, decision-forcing communication. ***A flag without a next step generates anxiety. A flag with a next step generates direction.*** *Trade-off accepted:* Recommended actions make assumptions about deal context that will sometimes be wrong. Override had to be frictionless — one tap — and the brief had to frame itself explicitly as a starting point, not a directive.",
-    image: 'ai-brief-04.png',
+    image: 'wireframe-02.png',
     alt: 'Every flag paired with a specific executable action.',
     bg: 'bg-03.png',
     reversed: true,
@@ -352,10 +354,16 @@ const Home = () => {
                     <div className={styles.decisionBody}>{renderText(d.body)}</div>
                   </div>
                   <div
-                    className={styles.principleVisual}
-                    style={{ backgroundImage: `url(${BASE}${d.bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                    className={`${styles.principleVisual}${d.fullBleed ? ` ${styles.principleVisualFull}` : ''}`}
+                    style={d.bg ? { backgroundImage: `url(${BASE}${d.bg})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
                   >
-                    {d.image && <img className={styles.principleImage} src={`${BASE}${d.image}`} alt={d.alt} />}
+                    {d.image && (
+                      <img
+                        className={`${styles.principleImage}${d.fullBleed ? ` ${styles.principleImageFull}` : ''}`}
+                        src={`${BASE}${d.image}`}
+                        alt={d.alt}
+                      />
+                    )}
                   </div>
                 </div>
               ))}

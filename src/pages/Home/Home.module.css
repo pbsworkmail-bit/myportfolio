@@ -431,16 +431,31 @@
 }
 
 .principleImage {
-  align-self: stretch;
+  width: 100%;
   height: auto;
-  max-height: clamp(240px, 30vw, 425px);
-  width: auto;
+  max-width: 100%;
+  max-height: none;
   position: relative;
   border-radius: 12px;
-  max-width: 100%;
-  overflow: hidden;
-  flex-shrink: 0;
-  object-fit: cover;
+  display: block;
+  object-fit: contain;
+}
+
+/* Full-bleed variant: image fills container width, height follows natural ratio */
+.principleVisualFull {
+  padding: 0;
+  justify-content: flex-start;
+}
+
+.principleImageFull {
+  position: static;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  border-radius: 0;
+  display: block;
 }
 
 .decisionTitle {
@@ -643,8 +658,9 @@
     border-radius: 0;
   }
 
-  .principleImage {
-    max-height: clamp(180px, 40vw, 320px);
+  .principleImage,
+  .principleImageFull {
+    max-height: none;
   }
 
   .reflectionRow {
