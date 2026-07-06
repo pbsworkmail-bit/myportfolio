@@ -2,7 +2,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: clamp(60px, 8vw, 120px);
+  gap: clamp(64px, 8vw, 120px);
   max-width: 900px;
   margin: 0 auto;
   padding: clamp(32px, 4vw, 48px) clamp(16px, 4vw, 24px);
@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: clamp(32px, 5vw, 60px) 0;
+  padding: clamp(32px, 5vw, 60px) 0 0;
 }
 
 .heroContent {
@@ -44,7 +44,7 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: clamp(60px, 8vw, 120px);
+  gap: clamp(64px, 8vw, 120px);
 }
 
 .sectionBlock {
@@ -98,6 +98,7 @@
   color: #404040;
   text-align: left;
   display: inline-block;
+  margin: 0 0 12px;
 }
 
 .outcomeText {
@@ -200,7 +201,7 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 16px 0;
-  gap: 10px;
+  gap: 8px;
   transition: background-color 0.2s ease;
   border-radius: 4px;
 }
@@ -395,13 +396,13 @@
 .principlesList {
   display: flex;
   flex-direction: column;
-  gap: clamp(60px, 8vw, 120px);
+  gap: clamp(64px, 8vw, 120px);
 }
 
 .principleRow {
   display: flex;
   align-items: flex-end;
-  gap: 40px;
+  gap: clamp(24px, 3vw, 40px);
 }
 
 .principleRowReversed {
@@ -482,7 +483,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: clamp(60px, 8vw, 120px);
+  gap: clamp(64px, 8vw, 120px);
 }
 
 .reflectionRow {
@@ -522,7 +523,7 @@
 .reflectionContent {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .reflectionTitle {
@@ -576,7 +577,7 @@
 .userflowColMeta {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .userflowColTitle {

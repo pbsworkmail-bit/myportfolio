@@ -75,10 +75,11 @@ const DECISIONS = [
   {
     title: 'Factor-level explanations, not aggregate scores.',
     body: '"Last buyer reply: 18 days ago. Close date pushed twice in 30 days. One contact engaged." A rep can evaluate, disagree, or act on that. **They cannot evaluate a score of 34.** HubSpot\'s AI Deal Score — the most explainable feature in the competitive analysis — showed top-five key factors with ± direction. Every other platform showed a score with "top factors" at best. *Trade-off accepted:* Factor-level explanations require more space and cognitive investment per deal. The information hierarchy had to be enforced strictly: *action first, reason second, supporting signals on demand*.',
-    image: null,
-    alt: '',
-    bg: 'bg-04.png',
+    image: 'wireframe-04.png',
+    alt: 'Factor-level deal explanation wireframe',
+    bg: null,
     reversed: false,
+    fullBleed: true,
   },
   {
     title: 'No auto-close, no auto-update.',
