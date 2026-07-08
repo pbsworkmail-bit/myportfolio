@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
+import Navbar from '../../components/Navbar';
 import styles from './Home.module.css';
 
 const LAYERS = [
@@ -50,7 +51,6 @@ const DECISIONS = [
     body: "The Deals module's inspection model failed because it required *deliberate intent*. Push delivery met reps in their existing morning behaviour. *Trade-off accepted:* A brief is less flexible than a dashboard. Reps who prefer to investigate on their own terms get a worse experience. That population was not the primary use case — **the target was the rep who was not going to investigate at all**.",
     image: 'wireframe-01.png',
     alt: 'Push brief wireframe',
-    bg: null,
     reversed: true,
     fullBleed: true,
   },
@@ -59,7 +59,6 @@ const DECISIONS = [
     body: "Stage and close date are *lagging* and *socially gamed*. Interaction gaps, single-threading, and meeting cancellations are *leading* and harder to fabricate. *Trade-off accepted:* Signal quality degrades in low-capture environments. This created a tiered value proposition — the brief performs better for organisations with better activity capture — and required **per-deal confidence indicators** to avoid misleading reps in low-data conditions.",
     image: 'wireframe-02.png',
     alt: 'Behavioural signals interface',
-    bg: null,
     reversed: false,
     fullBleed: true,
   },
@@ -68,7 +67,6 @@ const DECISIONS = [
     body: "Every competing platform studied flagged risk and left recovery to the rep. The JOLT framework (Dixon & McKenna) and Rateb et al. (2025) identified specific stage-appropriate recovery actions: multi-threading, mutual action plan reactivation, executive sponsor engagement, decision-forcing communication. ***A flag without a next step generates anxiety. A flag with a next step generates direction.*** *Trade-off accepted:* Recommended actions make assumptions about deal context that will sometimes be wrong. Override had to be frictionless — one tap — and the brief had to frame itself explicitly as a starting point, not a directive.",
     image: 'wireframe-03.png',
     alt: 'Every flag paired with a specific executable action.',
-    bg: null,
     reversed: true,
     fullBleed: true,
   },
@@ -77,17 +75,16 @@ const DECISIONS = [
     body: '"Last buyer reply: 18 days ago. Close date pushed twice in 30 days. One contact engaged." A rep can evaluate, disagree, or act on that. **They cannot evaluate a score of 34.** HubSpot\'s AI Deal Score — the most explainable feature in the competitive analysis — showed top-five key factors with ± direction. Every other platform showed a score with "top factors" at best. *Trade-off accepted:* Factor-level explanations require more space and cognitive investment per deal. The information hierarchy had to be enforced strictly: *action first, reason second, supporting signals on demand*.',
     image: 'wireframe-04.png',
     alt: 'Factor-level deal explanation wireframe',
-    bg: null,
     reversed: false,
     fullBleed: true,
   },
   {
     title: 'No auto-close, no auto-update.',
     body: "Qualification and disqualification judgment, forecast commits, and deal strategy stayed **fully human-controlled**. Automated actions on high-stakes decisions triggered the most severe aversion responses when wrong (PSAA framework, Habel et al., 2023; Rangarajan et al., 2026). *Trade-off accepted:* The brief could not autonomously close the loop. A rep who received a flag and did nothing would see the deal continue to decay. **This was a known, acceptable failure mode.** The brief improved the odds of intervention. *It couldn't guarantee it.*",
-    image: null,
-    alt: '',
-    bg: 'bg-05.png',
+    image: 'wireframe-05.png',
+    alt: 'No auto-close, no auto-update wireframe',
     reversed: true,
+    fullBleed: true,
   },
 ];
 
@@ -190,7 +187,9 @@ const Home = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div>
+      <Navbar />
+      <div className={styles.container}>
 
       {/* Hero */}
       <div className={styles.hero}>
@@ -441,6 +440,7 @@ const Home = () => {
           </div>
         </div>
 
+      </div>
       </div>
     </div>
   );
