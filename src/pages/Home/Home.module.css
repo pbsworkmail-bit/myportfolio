@@ -1,7 +1,34 @@
-/* ── Container ── */
-.container {
+/* ── Shared patterns ── */
+.container, .hero, .heroContent, .content, .sectionBlock, .section, .quoteBlock,
+.theActualProblemHadThreeCParent, .frameParent, .silentDeteriorationParent, .card,
+.principlesList, .principleText, .principleVisual, .reflectionGrid, .reflectionItem,
+.reflectionContent, .userflowImages, .userflowCol, .userflowColMeta {
   display: flex;
   flex-direction: column;
+}
+
+.heroTag, .heroTitle, .sectionLabel, .sectionTitle {
+  font-family: 'Crimson Pro';
+  color: #0d0d0d;
+}
+
+.bodyText, .paragraph, .stageAmountAnd, .reflectionBody {
+  font-size: 16px;
+  line-height: 161.8%;
+  font-family: Inter;
+  color: #404040;
+}
+
+.decisionTitle, .reflectionTitle {
+  font-size: clamp(17px, 2vw, 21px);
+  line-height: 161.8%;
+  font-weight: 500;
+  font-family: 'Crimson Pro';
+  color: #0d0d0d;
+}
+
+/* ── Container / hero ── */
+.container {
   gap: clamp(64px, 8vw, 120px);
   max-width: 900px;
   margin: 0 auto;
@@ -10,147 +37,53 @@
   color: #1a1a1a;
 }
 
-/* ── Hero ── */
-.hero {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: clamp(32px, 5vw, 60px) 0 0;
-}
+.hero { gap: 12px; padding: clamp(32px, 5vw, 60px) 0 0; }
+.heroContent { gap: 8px; }
+.heroTag { font-size: clamp(16px, 3vw, 24px); line-height: 133%; }
+.heroTitle { font-size: clamp(28px, 6vw, 60px); line-height: 1.2; }
 
-.heroContent {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.heroTag {
-  font-size: clamp(16px, 3vw, 24px);
-  line-height: 133%;
-  font-family: 'Crimson Pro';
-  color: #0d0d0d;
-  text-align: left;
-}
-
-.heroTitle {
-  font-size: clamp(28px, 6vw, 60px);
-  line-height: 1.2;
-  font-family: 'Crimson Pro';
-  color: #0d0d0d;
-  text-align: left;
-}
-
-/* ── Content ── */
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(64px, 8vw, 120px);
-}
-
-.sectionBlock {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(20px, 3vw, 32px);
-  padding: 0;
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.sectionLabel {
-  position: relative;
-  font-size: clamp(14px, 1.8vw, 18px);
-  line-height: 133%;
-  font-family: 'Crimson Pro';
-  color: #0d0d0d;
-  text-align: left;
-}
-
-.sectionTitle {
-  position: relative;
-  font-size: clamp(22px, 3.5vw, 34px);
-  line-height: 133%;
-  font-family: 'Crimson Pro';
-  color: #0d0d0d;
-  text-align: left;
-}
-
-.bodyText {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  line-height: 161.8%;
-  font-family: Inter;
-  color: #404040;
-  text-align: left;
-  display: inline-block;
-}
+/* ── Sections / text ── */
+.content { gap: clamp(64px, 8vw, 120px); }
+.sectionBlock { gap: clamp(20px, 3vw, 32px); }
+.section { gap: 12px; }
+.sectionLabel { font-size: clamp(14px, 1.8vw, 18px); line-height: 133%; }
+.sectionTitle { font-size: clamp(22px, 3.5vw, 34px); line-height: 133%; }
+.subHeader { font-size: 15px; font-weight: 600; }
 
 .paragraph {
   width: 100%;
-  position: relative;
-  font-size: 16px;
-  line-height: 161.8%;
-  font-family: Inter;
-  color: #404040;
-  text-align: left;
   display: inline-block;
   margin: 0 0 12px;
 }
 
-.outcomeText {
-  margin: 0 0 12px;
-  font-style: italic;
-}
+.outcomeText { margin: 0 0 12px; font-style: italic; }
 
-.imageWrapper {
-  width: 100%;
-}
-
-.image {
-  width: 100%;
-  height: auto;
-  display: block;
-}
+.imageWrapper { width: 100%; }
+.image { width: 100%; height: auto; display: block; }
 
 /* ── Full-bleed image containers ── */
 .image8Parent {
-  width: 100%;
-  height: auto;
-  position: relative;
-  border-radius: 12px;
-  background-color: #E6E4E0;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: clamp(20px, 4vw, 60px);
-  box-sizing: border-box;
+  border-radius: 12px;
+  background-color: #E6E4E0;
+  overflow: hidden;
 }
 
-/* Fixed: was 930.9px wide — caused horizontal overflow on any screen < ~980px */
 .image8Icon {
   width: 100%;
-  max-width: 100%;
   height: auto;
-  position: relative;
-  box-shadow: -2px -2px 8px #faf9f5, 12px 8px 36px -4px rgba(166, 166, 162, 0.24);
   border-radius: 12px;
   object-fit: cover;
+  box-shadow: -2px -2px 8px #faf9f5, 12px 8px 36px -4px rgba(166, 166, 162, 0.24);
 }
 
 .image6Parent {
-  width: 100%;
-  position: relative;
   display: flex;
   align-items: center;
-  padding: 0;
-  box-sizing: border-box;
   gap: clamp(24px, 4vw, 40px);
-  text-align: left;
   font-size: clamp(22px, 3vw, 34px);
   color: #404040;
   font-family: 'Crimson Pro';
@@ -158,35 +91,24 @@
 
 .image6Icon {
   flex: 1;
-  height: clamp(280px, 40vw, 580px);
-  position: relative;
-  overflow: hidden;
-  object-fit: cover;
-  border-radius: 8px;
   min-width: 0;
+  height: clamp(280px, 40vw, 580px);
+  border-radius: 8px;
+  object-fit: cover;
 }
 
 .theActualProblemHadThreeCParent {
   flex: 1;
-  display: flex;
-  flex-direction: column;
+  min-width: 0;
   align-items: flex-start;
   justify-content: center;
   gap: clamp(24px, 3vw, 40px);
-  min-width: 0;
 }
 
-.theActualProblem {
-  width: 100%;
-  position: relative;
-  line-height: 133%;
-  display: inline-block;
-}
+.theActualProblem { width: 100%; line-height: 133%; }
 
 .frameParent {
   align-self: stretch;
-  display: flex;
-  flex-direction: column;
   align-items: flex-start;
   justify-content: center;
   font-size: clamp(16px, 2vw, 21px);
@@ -196,34 +118,20 @@
 /* ── Accordion ── */
 .silentDeteriorationParent {
   align-self: stretch;
-  border-bottom: 0.6px dashed #b0b0b0;
-  display: flex;
-  flex-direction: column;
   align-items: flex-start;
   padding: 16px 0;
   gap: 8px;
-  transition: background-color 0.2s ease;
+  border-bottom: 0.6px dashed #b0b0b0;
   border-radius: 4px;
+  transition: background-color 0.2s ease;
 }
 
-.silentDeteriorationParent:hover {
-  background-color: rgba(0, 0, 0, 0.018);
-}
+.silentDeteriorationParent:hover { background-color: rgba(0, 0, 0, 0.018); }
 
 .silentDeterioration {
   align-self: stretch;
-  position: relative;
   line-height: 161.8%;
   font-weight: 500;
-}
-
-.stageAmountAnd {
-  align-self: stretch;
-  position: relative;
-  font-size: 16px;
-  line-height: 161.8%;
-  font-family: Inter;
-  color: #404040;
 }
 
 .accordionHeader {
@@ -236,18 +144,16 @@
   transition: opacity 0.2s ease;
 }
 
-.accordionHeader:hover {
-  opacity: 0.65;
-}
+.accordionHeader:hover { opacity: 0.65; }
 
 .accordionToggle {
-  font-size: 18px;
-  color: #b0b0b0;
-  font-family: Inter, sans-serif;
-  font-weight: 300;
   flex-shrink: 0;
-  line-height: 1;
   margin-left: 16px;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 300;
+  font-family: Inter, sans-serif;
+  color: #b0b0b0;
 }
 
 .accordionBody {
@@ -258,41 +164,18 @@
               opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.accordionBodyOpen {
-  grid-template-rows: 1fr;
-  opacity: 1;
-}
-
-.accordionInner {
-  overflow: hidden;
-  padding-top: 4px;
-}
+.accordionBodyOpen { grid-template-rows: 1fr; opacity: 1; }
+.accordionInner { overflow: hidden; padding-top: 4px; }
 
 /* ── Quote ── */
-.quoteBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.quote {
-  font-size: 17px;
-  font-style: italic;
-  border-left: 3px solid #ccc;
-  padding-left: 16px;
-  color: #444;
-  line-height: 1.6;
-}
+.quoteBlock { gap: 8px; }
 
 .dealDecayIs {
-  width: 100%;
-  position: relative;
   font-size: clamp(20px, 3.5vw, 34px);
   line-height: 133%;
   font-family: 'Crimson Pro';
   color: #404040;
   text-align: center;
-  display: inline-block;
 }
 
 .quoteLabel {
@@ -304,19 +187,16 @@
 }
 
 .readLink {
+  align-self: flex-start;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-decoration: underline;
   cursor: pointer;
-  align-self: flex-start;
   transition: opacity 0.25s ease, letter-spacing 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.readLink:hover {
-  opacity: 0.5;
-  letter-spacing: 0.14em;
-}
+.readLink:hover { opacity: 0.5; letter-spacing: 0.14em; }
 
 /* ── Cards (horizontal scroll track) ── */
 .cardsTrack {
@@ -333,41 +213,31 @@
   scrollbar-width: none;
 }
 
-.cardsTrack::-webkit-scrollbar {
-  display: none;
-}
+.cardsTrack::-webkit-scrollbar { display: none; }
 
 .card {
   flex: 0 0 min(520px, 82vw);
   scroll-snap-align: start;
-  position: relative;
+  align-items: flex-start;
+  gap: clamp(20px, 2.5vw, 28px);
+  padding: clamp(28px, 4vw, 48px);
   border-radius: 20px;
   background-color: #fff;
   box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: clamp(28px, 4vw, 48px);
-  box-sizing: border-box;
-  gap: clamp(20px, 2.5vw, 28px);
-  text-align: left;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.10);
-}
+.card:hover { transform: translateY(-5px); box-shadow: 0 12px 48px rgba(0, 0, 0, 0.10); }
 
 .cardIndex {
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: #b0b0ac;
   font-family: Inter, sans-serif;
-  text-transform: uppercase;
 }
 
 .cardTitle {
@@ -379,11 +249,11 @@
 }
 
 .cardBody {
+  flex: 1;
   font-size: 15px;
   line-height: 161.8%;
   font-family: Inter, sans-serif;
   color: #404040;
-  flex: 1;
 }
 
 /* ── Decisions / Principles (full-bleed breakout) ── */
@@ -393,11 +263,7 @@
   left: calc(50% - min(660px, 50vw));
 }
 
-.principlesList {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(64px, 8vw, 120px);
-}
+.principlesList { gap: clamp(64px, 8vw, 120px); }
 
 .principleRow {
   display: flex;
@@ -405,86 +271,23 @@
   gap: clamp(24px, 3vw, 40px);
 }
 
-.principleRowReversed {
-  flex-direction: row-reverse;
-}
+.principleRowReversed { flex-direction: row-reverse; }
 
-.principleText {
-  flex: 0 0 calc(35% - 20px);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+.principleText { flex: 0 0 calc(35% - 20px); gap: 16px; }
 
 .principleVisual {
   flex: 0 0 calc(65% - 20px);
-  height: auto;
   min-height: clamp(280px, 35vw, 603px);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(20px, 3vw, 40px);
-  box-sizing: border-box;
   border-radius: 12px;
   overflow: hidden;
 }
 
-.principleImage {
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  max-height: none;
-  position: relative;
-  border-radius: 12px;
-  display: block;
-  object-fit: contain;
-}
+.principleImage { width: 100%; height: auto; object-fit: contain; display: block; }
 
-/* Full-bleed variant: image fills container width, height follows natural ratio */
-.principleVisualFull {
-  padding: 0;
-  justify-content: flex-start;
-}
-
-.principleImageFull {
-  position: static;
-  width: 100%;
-  height: auto;
-  max-width: none;
-  max-height: none;
-  object-fit: contain;
-  border-radius: 0;
-  display: block;
-}
-
-.decisionTitle {
-  font-size: clamp(17px, 2vw, 21px);
-  line-height: 161.8%;
-  font-weight: 500;
-  font-family: 'Crimson Pro';
-  color: #0d0d0d;
-}
-
-.decisionBody {
-  font-size: 16px;
-  line-height: 161.8%;
-  color: #404040;
-}
-
-.subHeader {
-  font-size: 15px;
-  font-weight: 600;
-}
+.decisionBody { font-size: 16px; line-height: 161.8%; color: #404040; }
 
 /* ── Reflection ── */
-.reflectionGrid {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(64px, 8vw, 120px);
-}
+.reflectionGrid { width: 100%; gap: clamp(64px, 8vw, 120px); }
 
 .reflectionRow {
   align-self: stretch;
@@ -493,14 +296,7 @@
   gap: clamp(40px, 8vw, 120px);
 }
 
-.reflectionItem {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  min-width: 0;
-}
+.reflectionItem { flex: 1; min-width: 0; align-items: flex-start; gap: 20px; }
 
 .vectorWrapper {
   width: 40px;
@@ -509,7 +305,6 @@
   align-items: center;
   justify-content: center;
   padding: 3.3px;
-  box-sizing: border-box;
 }
 
 .vectorIcon {
@@ -520,36 +315,14 @@
   flex-shrink: 0;
 }
 
-.reflectionContent {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.reflectionTitle {
-  font-size: clamp(17px, 2vw, 21px);
-  line-height: 161.8%;
-  font-weight: 500;
-  font-family: 'Crimson Pro';
-  color: #0d0d0d;
-}
-
-.reflectionBody {
-  font-size: 16px;
-  line-height: 161.8%;
-  font-family: Inter;
-  color: #404040;
-}
+.reflectionContent { gap: 8px; }
 
 /* ── User Flow ── */
 .userflowImages {
-  display: flex;
-  flex-direction: column;
   gap: clamp(24px, 3vw, 40px);
+  padding: clamp(20px, 4vw, 60px);
   background-color: #E6E4E0;
   border-radius: 12px;
-  padding: clamp(20px, 4vw, 60px);
-  box-sizing: border-box;
 }
 
 .userflowDesc {
@@ -562,36 +335,21 @@
 
 .userflowCols {
   display: flex;
-  gap: clamp(32px, 18vw, 240px);
   align-items: flex-start;
+  gap: clamp(32px, 18vw, 240px);
 }
 
-.userflowCol {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(20px, 2.5vw, 32px);
-  min-width: 0;
-}
-
-.userflowColMeta {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+.userflowCol { flex: 1; min-width: 0; gap: clamp(20px, 2.5vw, 32px); }
+.userflowColMeta { gap: 8px; }
 
 .userflowColTitle {
+  margin-bottom: 6px;
   font-size: clamp(15px, 1.5vw, 17px);
   font-family: 'Crimson Pro', serif;
   color: #0d0d0d;
-  margin-bottom: 6px;
 }
 
-.userflowRow {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-}
+.userflowRow { display: flex; align-items: baseline; gap: 12px; }
 
 .userflowKey {
   flex: 0 0 80px;
@@ -610,80 +368,29 @@
   color: #404040;
 }
 
-.userflowImg {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-}
+.userflowImg { width: 100%; height: auto; display: block; border-radius: 8px; }
 
 /* ── Responsive breakpoints ── */
 
 /* Tablet: stack full-bleed side-by-side sections */
 @media (max-width: 768px) {
-  .image6Parent {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-  }
-
-  .image6Icon {
-    width: 100%;
-    height: clamp(220px, 50vw, 380px);
-    flex: none;
-    min-width: unset;
-  }
-
-  .theActualProblemHadThreeCParent {
-    flex: none;
-    width: 100%;
-  }
+  .image6Parent { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .image6Icon { flex: none; width: 100%; height: clamp(220px, 50vw, 380px); min-width: unset; }
+  .theActualProblemHadThreeCParent { flex: none; width: 100%; }
 
   .principleRow,
-  .principleRowReversed {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-  }
+  .principleRowReversed { flex-direction: column; align-items: stretch; gap: 0; }
 
-  .principleText {
-    flex: none;
-    width: 100%;
-    padding: 0 clamp(16px, 4vw, 24px) clamp(24px, 3vw, 32px);
-  }
+  .principleText { flex: none; width: 100%; padding: 0 clamp(16px, 4vw, 24px) clamp(24px, 3vw, 32px); }
+  .principleVisual { flex: none; width: 100%; min-height: clamp(240px, 50vw, 420px); border-radius: 0; }
 
-  .principleVisual {
-    flex: none;
-    width: 100%;
-    min-height: clamp(240px, 50vw, 420px);
-    border-radius: 0;
-  }
+  .reflectionRow { flex-direction: column; gap: 48px; padding: 0 clamp(16px, 4vw, 24px); }
 
-  .principleImage,
-  .principleImageFull {
-    max-height: none;
-  }
-
-  .reflectionRow {
-    flex-direction: column;
-    gap: 48px;
-    padding: 0 clamp(16px, 4vw, 24px);
-  }
-
-  .userflowDesc {
-    max-width: 100%;
-  }
-
-  .userflowCols {
-    flex-direction: column;
-    gap: 32px;
-  }
+  .userflowDesc { max-width: 100%; }
+  .userflowCols { flex-direction: column; gap: 32px; }
 }
 
 /* Mobile: cards */
 @media (max-width: 640px) {
-  .cardsTrack {
-    padding: 8px 20px 32px max(16px, calc((100vw - 900px) / 2 + 16px));
-    gap: 14px;
-  }
+  .cardsTrack { padding: 8px 20px 32px max(16px, calc((100vw - 900px) / 2 + 16px)); gap: 14px; }
 }

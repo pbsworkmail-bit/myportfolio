@@ -22,11 +22,8 @@ body {
 }
 
 [data-reveal="scale"] {
-  opacity: 0;
   transform: translateY(16px) scale(0.97);
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transition-duration: 1s;
 }
 
 [data-reveal].revealed {
@@ -40,8 +37,7 @@ body {
 [data-delay="4"] { transition-delay: 0.40s; }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal],
-  [data-reveal="scale"] {
+  [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;

@@ -51,40 +51,30 @@ const DECISIONS = [
     body: "The Deals module's inspection model failed because it required *deliberate intent*. Push delivery met reps in their existing morning behaviour. *Trade-off accepted:* A brief is less flexible than a dashboard. Reps who prefer to investigate on their own terms get a worse experience. That population was not the primary use case — **the target was the rep who was not going to investigate at all**.",
     image: 'wireframe-01.png',
     alt: 'Push brief wireframe',
-    reversed: true,
-    fullBleed: true,
   },
   {
     title: 'Behavioural signals, not record fields.',
     body: "Stage and close date are *lagging* and *socially gamed*. Interaction gaps, single-threading, and meeting cancellations are *leading* and harder to fabricate. *Trade-off accepted:* Signal quality degrades in low-capture environments. This created a tiered value proposition — the brief performs better for organisations with better activity capture — and required **per-deal confidence indicators** to avoid misleading reps in low-data conditions.",
     image: 'wireframe-02.png',
     alt: 'Behavioural signals interface',
-    reversed: false,
-    fullBleed: true,
   },
   {
     title: 'Every flag paired with a specific executable action.',
     body: "Every competing platform studied flagged risk and left recovery to the rep. The JOLT framework (Dixon & McKenna) and Rateb et al. (2025) identified specific stage-appropriate recovery actions: multi-threading, mutual action plan reactivation, executive sponsor engagement, decision-forcing communication. ***A flag without a next step generates anxiety. A flag with a next step generates direction.*** *Trade-off accepted:* Recommended actions make assumptions about deal context that will sometimes be wrong. Override had to be frictionless — one tap — and the brief had to frame itself explicitly as a starting point, not a directive.",
     image: 'wireframe-03.png',
     alt: 'Every flag paired with a specific executable action.',
-    reversed: true,
-    fullBleed: true,
   },
   {
     title: 'Factor-level explanations, not aggregate scores.',
     body: '"Last buyer reply: 18 days ago. Close date pushed twice in 30 days. One contact engaged." A rep can evaluate, disagree, or act on that. **They cannot evaluate a score of 34.** HubSpot\'s AI Deal Score — the most explainable feature in the competitive analysis — showed top-five key factors with ± direction. Every other platform showed a score with "top factors" at best. *Trade-off accepted:* Factor-level explanations require more space and cognitive investment per deal. The information hierarchy had to be enforced strictly: *action first, reason second, supporting signals on demand*.',
     image: 'wireframe-04.png',
     alt: 'Factor-level deal explanation wireframe',
-    reversed: false,
-    fullBleed: true,
   },
   {
     title: 'No auto-close, no auto-update.',
     body: "Qualification and disqualification judgment, forecast commits, and deal strategy stayed **fully human-controlled**. Automated actions on high-stakes decisions triggered the most severe aversion responses when wrong (PSAA framework, Habel et al., 2023; Rangarajan et al., 2026). *Trade-off accepted:* The brief could not autonomously close the loop. A rep who received a flag and did nothing would see the deal continue to decay. **This was a known, acceptable failure mode.** The brief improved the odds of intervention. *It couldn't guarantee it.*",
     image: 'wireframe-05.png',
     alt: 'No auto-close, no auto-update wireframe',
-    reversed: true,
-    fullBleed: true,
   },
 ];
 
@@ -111,6 +101,44 @@ const REFLECTIONS = [
   ],
 ];
 
+const USERFLOW = [
+  {
+    title: 'Trial Experience',
+    rows: [
+      ['User goal', 'Spot at-risk deals before they slip'],
+      ['Entry', 'Workday start · no prompts shown'],
+      ['Depends on', 'Rep self-motivation + dashboard data'],
+    ],
+    image: 'userflow-01.png',
+    alt: 'Trial experience user flow: rep must proactively open CRM, search for deals, interpret data manually, and form their own risk assessment — action is inconsistent and rarely reached',
+  },
+  {
+    title: 'Final Experience',
+    rows: [
+      ['User goal', 'Same — act on at-risk deals, effortlessly'],
+      ['Entry', 'Workday start · brief already waiting'],
+      ['Depends on', 'AI monitoring deals continuously'],
+    ],
+    image: 'userflow-02.png',
+    alt: 'Final experience user flow: AI brief is generated and delivered automatically at workday start, rep reads risk and next step in-context, then acts immediately — no drop-off',
+  },
+];
+
+const OUTCOMES = [
+  '*These are research-projected outcomes. No post-ship metrics exist at this stage. Success indicators were defined before launch as proxies.*',
+  '**For reps:** The brief was designed to change the *locus of awareness* — moving deal risk from something reps discovered (if they investigated) to something that found them. The measurable proxy was brief engagement rate and action-taken rate per flag, not adoption per se. Research established ~38% adherence to AI recommendations in enterprise copilot contexts (Brynjolfsson, Li & Raymond, QJE 2025) as a healthy baseline — not a failure state. 100% adherence would be automation bias.',
+  '**For pipeline health:** Deals flagged inside the intervention window and acted upon could be recovered or disqualified before distorting the forecast. Deals disqualified earlier freed pipeline capacity for higher-quality opportunities. Forecast fidelity — Gartner median 70–79%, only 7% of teams at ≥90% — was the business metric this was designed to move. The leading indicator was brief-triggered close-lost actions before end-of-quarter pressure.',
+  "**For the product:** The Deals module shifted from destination (you go to it when asked) to orientation (it comes to you before you make decisions). This repositioned Worktual against Salesforce's Agentforce — gated behind $165+/user/month — for mid-market buyers where the gap between SMB simplicity (Pipedrive's Rotting flag) and enterprise sophistication (Salesforce Pipeline Inspection) was widest and most commercially underserved.",
+];
+
+const REFERENCES = [
+  '**Peer-reviewed / Academic**',
+  'Thiess, Müller & Tonelli (2020), *Wirtschaftsinformatik* — explainable win-propensity prediction design principles · Habel, Alavi & Heinitz (2023), *AMS Review* — PSAA adoption model · Habel, Alavi & Heinitz (2024), *JMR* — predictive analytics field experiment, 9.7M transactions · Rateb, Keating & Wang (2025), *Industrial Marketing Management* — micro-level B2B deal tactics · Dietvorst, Simmons & Massey (2015), *J. Exp. Psych: General* — algorithm aversion · Dietvorst, Simmons & Massey (2018), *Management Science* — editability and aversion mitigation · Brynjolfsson, Li & Raymond (2023/2025), *QJE* — generative AI at work, 5,179 agents · Bansal et al. (2021), *CHI* — AI explanations and complementary team performance · Buçinca, Malaya & Gajos (2021), *CSCW* — cognitive forcing and over-reliance · Rangarajan et al. (2026), *JPSSM* — AI trust in sales organisations',
+  '**Industry Benchmarks** *(directionally useful; not peer-reviewed)*',
+  'Dixon & McKenna (2022), *The JOLT Effect* — 2.5M+ conversations · Ebsta & Pavilion (2024/2025) — 4.2M opportunities, $54B revenue · Gartner — Buying Journey, forecast accuracy, SFA Magic Quadrant · Salesforce State of Sales 5th Ed. — 5,500 respondents · AskElephant (2025) · Kluster (2024)',
+  '---',
+];
+
 const renderText = (text) => {
   const parts = text.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
   return parts.map((part, i) => {
@@ -123,54 +151,51 @@ const renderText = (text) => {
 
 const BASE = import.meta.env.BASE_URL;
 
+const SectionHeader = ({ title, sub }) => (
+  <>
+    <div className={styles.sectionLabel}>Overline</div>
+    <div className={styles.sectionTitle}>{title}</div>
+    {sub && <div className={styles.subHeader}>{sub}</div>}
+  </>
+);
+
 const Home = () => {
   const constraintsRef = useRef(null);
   const [activeLayer, setActiveLayer] = useState(0);
 
+  // Wheel + drag horizontal scrolling for the constraints card track
   useEffect(() => {
     const el = constraintsRef.current;
     if (!el) return;
 
-    let isDown = false;
-    let startX = 0;
-    let scrollLeft = 0;
-
-    const onWheel = (e) => {
-      if (e.deltaY === 0) return;
-      e.preventDefault();
-      el.scrollLeft += e.deltaY;
-    };
-    const onMouseDown = (e) => {
-      isDown = true;
-      startX = e.pageX - el.offsetLeft;
-      scrollLeft = el.scrollLeft;
-      el.style.cursor = 'grabbing';
-    };
-    const onMouseUp = () => { isDown = false; el.style.cursor = 'grab'; };
-    const onMouseLeave = () => { isDown = false; el.style.cursor = 'grab'; };
-    const onMouseMove = (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX) * 1.5;
+    let drag = null;
+    const stopDrag = () => { drag = null; el.style.cursor = 'grab'; };
+    const handlers = {
+      wheel: (e) => {
+        if (e.deltaY === 0) return;
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+      },
+      mousedown: (e) => {
+        drag = { startX: e.pageX - el.offsetLeft, scrollLeft: el.scrollLeft };
+        el.style.cursor = 'grabbing';
+      },
+      mouseup: stopDrag,
+      mouseleave: stopDrag,
+      mousemove: (e) => {
+        if (!drag) return;
+        e.preventDefault();
+        el.scrollLeft = drag.scrollLeft - (e.pageX - el.offsetLeft - drag.startX) * 1.5;
+      },
     };
 
-    el.addEventListener('wheel', onWheel, { passive: false });
-    el.addEventListener('mousedown', onMouseDown);
-    el.addEventListener('mouseup', onMouseUp);
-    el.addEventListener('mouseleave', onMouseLeave);
-    el.addEventListener('mousemove', onMouseMove);
-
-    return () => {
-      el.removeEventListener('wheel', onWheel);
-      el.removeEventListener('mousedown', onMouseDown);
-      el.removeEventListener('mouseup', onMouseUp);
-      el.removeEventListener('mouseleave', onMouseLeave);
-      el.removeEventListener('mousemove', onMouseMove);
-    };
+    Object.entries(handlers).forEach(([type, fn]) =>
+      el.addEventListener(type, fn, type === 'wheel' ? { passive: false } : undefined)
+    );
+    return () => Object.entries(handlers).forEach(([type, fn]) => el.removeEventListener(type, fn));
   }, []);
 
   useEffect(() => {
-    const els = document.querySelectorAll('[data-reveal]');
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
@@ -182,7 +207,7 @@ const Home = () => {
       },
       { threshold: 0.1, rootMargin: '0px 0px -48px 0px' }
     );
-    els.forEach(el => observer.observe(el));
+    document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
@@ -252,8 +277,7 @@ const Home = () => {
         {/* Block 3: Research */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
-            <div className={styles.sectionLabel}>Overline</div>
-            <div className={styles.sectionTitle}>What the Research Established</div>
+            <SectionHeader title="What the Research Established" />
             <div className={styles.bodyText}>Five research bodies were synthesised: B2B sales pipeline management (academic + practitioner), CRM competitive capabilities, deal decay mechanisms, SaaS executive AI briefing patterns, and human-AI interaction in enterprise software. Evidence was labelled by quality tier throughout: peer-reviewed, large-n industry benchmark, or vendor-reported.</div>
             <div className={styles.readLink}>READ SYNTHESIS</div>
           </div>
@@ -270,50 +294,20 @@ const Home = () => {
                 Trial vs. Final experience for AI-generated deal briefs — mapping goals, user actions, system responses, decision points, edge cases & outcomes.
               </div>
               <div className={styles.userflowCols}>
-                <div className={styles.userflowCol}>
-                  <div className={styles.userflowColMeta}>
-                    <div className={styles.userflowColTitle}>Trial Experience</div>
-                    <div className={styles.userflowRow}>
-                      <span className={styles.userflowKey}>User goal</span>
-                      <span className={styles.userflowVal}>Spot at-risk deals before they slip</span>
+                {USERFLOW.map((col) => (
+                  <div key={col.title} className={styles.userflowCol}>
+                    <div className={styles.userflowColMeta}>
+                      <div className={styles.userflowColTitle}>{col.title}</div>
+                      {col.rows.map(([key, val]) => (
+                        <div key={key} className={styles.userflowRow}>
+                          <span className={styles.userflowKey}>{key}</span>
+                          <span className={styles.userflowVal}>{val}</span>
+                        </div>
+                      ))}
                     </div>
-                    <div className={styles.userflowRow}>
-                      <span className={styles.userflowKey}>Entry</span>
-                      <span className={styles.userflowVal}>Workday start · no prompts shown</span>
-                    </div>
-                    <div className={styles.userflowRow}>
-                      <span className={styles.userflowKey}>Depends on</span>
-                      <span className={styles.userflowVal}>Rep self-motivation + dashboard data</span>
-                    </div>
+                    <img className={styles.userflowImg} src={`${BASE}${col.image}`} alt={col.alt} />
                   </div>
-                  <img
-                    className={styles.userflowImg}
-                    src={`${BASE}userflow-01.png`}
-                    alt="Trial experience user flow: rep must proactively open CRM, search for deals, interpret data manually, and form their own risk assessment — action is inconsistent and rarely reached"
-                  />
-                </div>
-                <div className={styles.userflowCol}>
-                  <div className={styles.userflowColMeta}>
-                    <div className={styles.userflowColTitle}>Final Experience</div>
-                    <div className={styles.userflowRow}>
-                      <span className={styles.userflowKey}>User goal</span>
-                      <span className={styles.userflowVal}>Same — act on at-risk deals, effortlessly</span>
-                    </div>
-                    <div className={styles.userflowRow}>
-                      <span className={styles.userflowKey}>Entry</span>
-                      <span className={styles.userflowVal}>Workday start · brief already waiting</span>
-                    </div>
-                    <div className={styles.userflowRow}>
-                      <span className={styles.userflowKey}>Depends on</span>
-                      <span className={styles.userflowVal}>AI monitoring deals continuously</span>
-                    </div>
-                  </div>
-                  <img
-                    className={styles.userflowImg}
-                    src={`${BASE}userflow-02.png`}
-                    alt="Final experience user flow: AI brief is generated and delivered automatically at workday start, rep reads risk and next step in-context, then acts immediately — no drop-off"
-                  />
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -322,8 +316,7 @@ const Home = () => {
         {/* Block 4: Constraints */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
-            <div className={styles.sectionLabel}>Overline</div>
-            <div className={styles.sectionTitle}>Constraints That Shaped the Design</div>
+            <SectionHeader title="Constraints That Shaped the Design" />
           </div>
           <div className={styles.cardsTrack} ref={constraintsRef} data-reveal data-delay="1">
             {CONSTRAINTS.map((c) => (
@@ -339,32 +332,22 @@ const Home = () => {
         {/* Block 5: Decisions */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
-            <div className={styles.sectionLabel}>Overline</div>
-            <div className={styles.sectionTitle}>Five Decisions, With Their Trade-offs</div>
+            <SectionHeader title="Five Decisions, With Their Trade-offs" />
           </div>
           <div className={styles.principlesContainer}>
             <div className={styles.principlesList}>
               {DECISIONS.map((d, i) => (
                 <div
                   key={i}
-                  className={`${styles.principleRow}${d.reversed ? ` ${styles.principleRowReversed}` : ''}`}
+                  className={`${styles.principleRow}${i % 2 === 0 ? ` ${styles.principleRowReversed}` : ''}`}
                   data-reveal
                 >
                   <div className={styles.principleText}>
                     <div className={styles.decisionTitle}>{d.title}</div>
                     <div className={styles.decisionBody}>{renderText(d.body)}</div>
                   </div>
-                  <div
-                    className={`${styles.principleVisual}${d.fullBleed ? ` ${styles.principleVisualFull}` : ''}`}
-                    style={d.bg ? { backgroundImage: `url(${BASE}${d.bg})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
-                  >
-                    {d.image && (
-                      <img
-                        className={`${styles.principleImage}${d.fullBleed ? ` ${styles.principleImageFull}` : ''}`}
-                        src={`${BASE}${d.image}`}
-                        alt={d.alt}
-                      />
-                    )}
+                  <div className={styles.principleVisual}>
+                    <img className={styles.principleImage} src={`${BASE}${d.image}`} alt={d.alt} />
                   </div>
                 </div>
               ))}
@@ -375,14 +358,11 @@ const Home = () => {
         {/* Block 6: Outcomes */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
-            <div className={styles.sectionLabel}>Overline</div>
-            <div className={styles.sectionTitle}>What the Brief Was Designed to Change</div>
-            <div className={styles.subHeader}>Sub header</div>
+            <SectionHeader title="What the Brief Was Designed to Change" sub="Sub header" />
             <div className={styles.bodyText}>
-              <p className={styles.paragraph}>{renderText('*These are research-projected outcomes. No post-ship metrics exist at this stage. Success indicators were defined before launch as proxies.*')}</p>
-              <p className={styles.paragraph}>{renderText(`**For reps:** The brief was designed to change the *locus of awareness* — moving deal risk from something reps discovered (if they investigated) to something that found them. The measurable proxy was brief engagement rate and action-taken rate per flag, not adoption per se. Research established ~38% adherence to AI recommendations in enterprise copilot contexts (Brynjolfsson, Li & Raymond, QJE 2025) as a healthy baseline — not a failure state. 100% adherence would be automation bias.`)}</p>
-              <p className={styles.paragraph}>{renderText('**For pipeline health:** Deals flagged inside the intervention window and acted upon could be recovered or disqualified before distorting the forecast. Deals disqualified earlier freed pipeline capacity for higher-quality opportunities. Forecast fidelity — Gartner median 70–79%, only 7% of teams at ≥90% — was the business metric this was designed to move. The leading indicator was brief-triggered close-lost actions before end-of-quarter pressure.')}</p>
-              <p className={styles.outcomeText}>{renderText("**For the product:** The Deals module shifted from destination (you go to it when asked) to orientation (it comes to you before you make decisions). This repositioned Worktual against Salesforce's Agentforce — gated behind $165+/user/month — for mid-market buyers where the gap between SMB simplicity (Pipedrive's Rotting flag) and enterprise sophistication (Salesforce Pipeline Inspection) was widest and most commercially underserved.")}</p>
+              {OUTCOMES.map((p, i) => (
+                <p key={i} className={i === OUTCOMES.length - 1 ? styles.outcomeText : styles.paragraph}>{renderText(p)}</p>
+              ))}
             </div>
           </div>
         </div>
@@ -399,8 +379,7 @@ const Home = () => {
         {/* Block 7: Reflection */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
-            <div className={styles.sectionLabel}>Overline</div>
-            <div className={styles.sectionTitle}>What Failed and What I'd Do Differently</div>
+            <SectionHeader title="What Failed and What I'd Do Differently" />
           </div>
           <div className={styles.principlesContainer}>
             <div className={styles.reflectionGrid}>
@@ -426,15 +405,11 @@ const Home = () => {
         {/* Block 8: References */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
-            <div className={styles.sectionLabel}>Overline</div>
-            <div className={styles.sectionTitle}>Research Evidence Base</div>
-            <div className={styles.subHeader}>Sub header</div>
+            <SectionHeader title="Research Evidence Base" sub="Sub header" />
             <div className={styles.bodyText}>
-              <p className={styles.paragraph}>**Peer-reviewed / Academic**</p>
-              <p className={styles.paragraph}>{`Thiess, Müller & Tonelli (2020), *Wirtschaftsinformatik* — explainable win-propensity prediction design principles · Habel, Alavi & Heinitz (2023), *AMS Review* — PSAA adoption model · Habel, Alavi & Heinitz (2024), *JMR* — predictive analytics field experiment, 9.7M transactions · Rateb, Keating & Wang (2025), *Industrial Marketing Management* — micro-level B2B deal tactics · Dietvorst, Simmons & Massey (2015), *J. Exp. Psych: General* — algorithm aversion · Dietvorst, Simmons & Massey (2018), *Management Science* — editability and aversion mitigation · Brynjolfsson, Li & Raymond (2023/2025), *QJE* — generative AI at work, 5,179 agents · Bansal et al. (2021), *CHI* — AI explanations and complementary team performance · Buçinca, Malaya & Gajos (2021), *CSCW* — cognitive forcing and over-reliance · Rangarajan et al. (2026), *JPSSM* — AI trust in sales organisations`}</p>
-              <p className={styles.paragraph}>**Industry Benchmarks** *(directionally useful; not peer-reviewed)*</p>
-              <p className={styles.paragraph}>{`Dixon & McKenna (2022), *The JOLT Effect* — 2.5M+ conversations · Ebsta & Pavilion (2024/2025) — 4.2M opportunities, $54B revenue · Gartner — Buying Journey, forecast accuracy, SFA Magic Quadrant · Salesforce State of Sales 5th Ed. — 5,500 respondents · AskElephant (2025) · Kluster (2024)`}</p>
-              <p className={styles.paragraph}>---</p>
+              {REFERENCES.map((p, i) => (
+                <p key={i} className={styles.paragraph}>{p}</p>
+              ))}
               <p className={styles.outcomeText}>*Praveen — UX Designer, Worktual AI · June 2026 · Evidence labelling: peer-reviewed sources cited author-year-journal; industry benchmarks noted with quality caveat; vendor-claimed ROI not used as primary design justification.*</p>
             </div>
           </div>

@@ -13,7 +13,6 @@ export default function Landing() {
   const textRef   = useRef(null)
   const cursorRef = useRef(null)
   const bioRef    = useRef(null)
-  const timerIds  = useRef([])
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -25,10 +24,8 @@ export default function Landing() {
       return
     }
 
-    const later = (fn, ms) => {
-      const id = setTimeout(fn, ms)
-      timerIds.current.push(id)
-    }
+    const timerIds = []
+    const later = (fn, ms) => timerIds.push(setTimeout(fn, ms))
 
     // ── Phase 2b: cursor → dot morph ──────────────────────────
     const startMorph = () => {
@@ -69,7 +66,7 @@ export default function Landing() {
 
     later(typeNext, 350)
 
-    return () => timerIds.current.forEach(clearTimeout)
+    return () => timerIds.forEach(clearTimeout)
   }, [])
 
   return (

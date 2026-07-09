@@ -8,11 +8,11 @@
 .navInner {
   max-width: 1440px;
   margin: 0 auto;
+  height: 64px;
+  padding: 0 clamp(20px, 4.5vw, 60px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
-  padding: 0 clamp(20px, 4.5vw, 60px);
 }
 
 .brand {
@@ -41,25 +41,16 @@
   color: #0d0d0d;
 }
 
-.links {
-  display: flex;
-  align-items: center;
-  gap: clamp(20px, 3vw, 36px);
-}
+.links { display: flex; align-items: center; gap: clamp(20px, 3vw, 36px); }
 
 .link {
-  font-size: 14px;
   font-family: Inter, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.01em;
   color: #404040;
   text-decoration: none;
-  letter-spacing: 0.01em;
   transition: color 0.2s ease;
 }
 
-.link:hover {
-  color: #0d0d0d;
-}
-
-.active {
-  color: #0d0d0d;
-}
+.link:hover { color: #0d0d0d; }
+.active { color: #0d0d0d; }
