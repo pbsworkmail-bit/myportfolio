@@ -22,8 +22,10 @@ export default function Navbar() {
           <NavLink to="/" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
             Home
           </NavLink>
-          <a href="#" className={styles.link}>Resume</a>
-          <a href="#" className={styles.link}>About</a>
+          <a href={`${BASE}Resume%202026.pdf`} target="_blank" rel="noopener noreferrer" className={styles.link}>Resume</a>
+          <NavLink to="/about" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
+            About
+          </NavLink>
         </div>
       </div>
     </nav>
