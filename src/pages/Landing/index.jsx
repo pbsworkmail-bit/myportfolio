@@ -6,6 +6,23 @@ import styles from './Landing.module.css'
 const BASE = import.meta.env.BASE_URL
 const HERO_TEXT = 'Praveen Babu'
 
+const CASE_STUDIES = [
+  {
+    title: "A seller-activation layer for a B2B CRM Deals module",
+    desc: "Deal decay is a perception and behavioural problem before it is a data problem — the signals are often already sitting in the CRM, unread. Reps scanning the same pipeline every week stop noticing the deal that's gone quiet for a month; the silence that should trigger action instead hides it. The brief surfaces what the system already knew, before the deal is gone rather than after.",
+    cta: { to: '/worktual', label: 'View Case study' },
+    image: 'ai-brief-03.png',
+    alt: 'AI-generated deal brief — CRM interface showing deal health and recommended actions',
+  },
+  {
+    title: "Adoption is the perennial #1 challenge, but it's a symptom.",
+    desc: "The tools and components exist—getting people to use them consistently is another matter entirely. Teams ship a fully documented design system and still watch product surfaces drift back into one-off patterns within a quarter, because the gap was never awareness or access. It was trust in the library, discoverability inside the file, and a workflow where the sanctioned pattern took longer to find than it did to just build one from scratch.",
+    cta: null,
+    image: null,
+    alt: '',
+  },
+]
+
 const BLINK_CYCLES = 4
 const BLINK_PERIOD = 550 // ms per cycle
 
@@ -91,38 +108,36 @@ export default function Landing() {
         </section>
 
         {/* ── Case Studies Section ── */}
-        <section className={styles.caseSection}>
-          <div className={styles.caseInner}>
+        <div className={styles.caseSectionLabel}>
+          <p className={styles.caseLabel}>Case Studies</p>
+        </div>
+        {CASE_STUDIES.map((cs, i) => (
+          <section key={i} className={styles.caseSection}>
+            <div className={styles.caseInner}>
 
-            <div className={styles.caseLeft}>
-              <p className={styles.caseLabel}>Case Studies</p>
-              <h2 className={styles.caseTitle}>
-                The Problem Wasn't Data Quality. It Was Perception Architecture.
-              </h2>
-              <p className={styles.caseDesc}>
-                I'm a UI/UX Designer focused on creating intuitive, scalable interfaces for enterprise SaaS
-                platforms. My work spans design systems, data dashboards, and Agentic AI experiences that blend
-                clarity, function, and emotion. Skilled in Figma, interaction design, and motion, I believe great
-                design simplifies complexity and helps users work smarter through thoughtful, consistent, and
-                human-centered experiences.
-              </p>
-              <Link to="/worktual" className={styles.caseBtn}>
-                View Case study
-              </Link>
-            </div>
-
-            <div className={styles.caseRight}>
-              <div className={styles.caseCard}>
-                <img
-                  className={styles.caseCardImage}
-                  src={`${BASE}ai-brief-03.png`}
-                  alt="AI-generated deal brief — CRM interface showing deal health and recommended actions"
-                />
+              <div className={styles.caseLeft}>
+                <h2 className={styles.caseTitle}>{cs.title}</h2>
+                <p className={styles.caseDesc}>{cs.desc}</p>
+                {cs.cta && (
+                  <Link to={cs.cta.to} className={styles.caseBtn}>
+                    {cs.cta.label}
+                  </Link>
+                )}
               </div>
-            </div>
 
-          </div>
-        </section>
+              <div className={styles.caseRight}>
+                <div className={styles.caseCard}>
+                  <img
+                    className={styles.caseCardImage}
+                    src={cs.image ? `${BASE}${cs.image}` : undefined}
+                    alt={cs.alt}
+                  />
+                </div>
+              </div>
+
+            </div>
+          </section>
+        ))}
 
       </main>
     </div>

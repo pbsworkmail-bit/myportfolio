@@ -74,6 +74,14 @@
 }
 
 /* ── Case Studies Section ── */
+.caseSectionLabel {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4.5vw, 60px);
+  margin-bottom: clamp(24px, 4vh, 40px);
+}
+
 .caseSection { padding: 0 0 clamp(80px, 10vh, 120px); }
 
 .caseInner {
@@ -149,6 +157,7 @@
 .caseCardImage {
   width: 100%;
   height: auto;
+  aspect-ratio: 1240 / 808;
   display: block;
   border-radius: 10px 10px 0 0;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
