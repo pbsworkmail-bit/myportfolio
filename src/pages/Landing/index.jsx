@@ -25,11 +25,44 @@ const CASE_STUDIES = [
 
 const BLINK_CYCLES = 4
 const BLINK_PERIOD = 550 // ms per cycle
+const CTA_FADE_DISTANCE = 240 // px of scroll over which the scroll CTA fades out
 
 export default function Landing() {
   const textRef   = useRef(null)
   const cursorRef = useRef(null)
   const bioRef    = useRef(null)
+  const caseRef   = useRef(null)
+  const pageRef   = useRef(null)
+  const ctaRef    = useRef(null)
+
+  const scrollToCases = () => {
+    caseRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  useEffect(() => {
+    const page = pageRef.current
+    if (!page) return
+
+    let ticking = false
+    const applyFade = () => {
+      ticking = false
+      const cta = ctaRef.current
+      if (!cta) return
+      const opacity = Math.max(0, 1 - page.scrollTop / CTA_FADE_DISTANCE)
+      cta.style.opacity = opacity
+      cta.style.pointerEvents = opacity < 0.05 ? 'none' : 'auto'
+    }
+
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(applyFade)
+    }
+
+    applyFade()
+    page.addEventListener('scroll', onScroll, { passive: true })
+    return () => page.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -87,7 +120,7 @@ export default function Landing() {
   }, [])
 
   return (
-    <div className={styles.page}>
+    <div ref={pageRef} className={styles.page}>
       <Navbar />
       <main className={styles.main}>
 
@@ -105,10 +138,17 @@ export default function Landing() {
               complexity and helps users work smarter through thoughtful, consistent, and human-centered experiences.
             </p>
           </div>
+
+          <button ref={ctaRef} type="button" className={styles.scrollCta} onClick={scrollToCases} aria-label="Scroll to case studies">
+            <span>Scroll</span>
+            <svg width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden="true">
+              <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
         </section>
 
         {/* ── Case Studies Section ── */}
-        <div className={styles.caseSectionLabel}>
+        <div ref={caseRef} className={styles.caseSectionLabel}>
           <p className={styles.caseLabel}>Case Studies</p>
         </div>
         {CASE_STUDIES.map((cs, i) => (
