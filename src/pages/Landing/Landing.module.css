@@ -1,9 +1,12 @@
 .page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background-color: #faf9f5;
+  height: 100vh;
+  overflow-y: auto;
   overflow-x: hidden;
+  scroll-snap-type: y proximity;
+  scroll-padding-top: 64px;
+  background-color: #faf9f5;
 }
 
 .main { flex: 1; display: flex; flex-direction: column; }
@@ -18,7 +21,12 @@
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 120px clamp(20px, 4.5vw, 60px);
+  min-height: calc(100vh - 64px);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: clamp(48px, 8vh, 120px) clamp(20px, 4.5vw, 60px);
+  scroll-snap-align: start;
 }
 
 .heroContent {
@@ -80,9 +88,10 @@
   margin: 0 auto;
   padding: 0 clamp(20px, 4.5vw, 60px);
   margin-bottom: clamp(24px, 4vh, 40px);
+  scroll-snap-align: start;
 }
 
-.caseSection { padding: 0 0 clamp(80px, 10vh, 120px); }
+.caseSection { padding: 0 0 clamp(80px, 10vh, 120px); scroll-snap-align: start; }
 
 .caseInner {
   max-width: 1440px;
@@ -165,14 +174,12 @@
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
-  .hero { padding: 80px 32px; }
   .heroName { margin: 0 0 clamp(14px, 2vh, 20px); }
   .caseInner { grid-template-columns: 1fr; gap: clamp(32px, 5vw, 48px); }
   .caseTitle { font-size: clamp(22px, 5vw, 34px); }
 }
 
 @media (max-width: 480px) {
-  .hero { padding: 56px 20px; }
   .caseSection { padding: 0 0 clamp(60px, 8vh, 96px); }
   .caseBtn { width: 100%; justify-content: center; }
 }
