@@ -1,0 +1,74 @@
+/* ── Shared patterns (mirrors Home.module.css hero layout exactly) ── */
+.container, .hero, .heroContent, .content, .sectionBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.heroTag, .heroTitle {
+  font-family: 'Crimson Pro';
+  color: #0d0d0d;
+}
+
+.bodyText {
+  font-size: 16px;
+  line-height: 161.8%;
+  font-family: Inter;
+  color: #404040;
+}
+
+.bodyText em { font-style: italic; }
+
+/* ── Container / hero ── */
+.container {
+  gap: clamp(64px, 8vw, 120px);
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(32px, 4vw, 48px) clamp(16px, 4vw, 24px);
+  font-family: sans-serif;
+  color: #1a1a1a;
+}
+
+.hero { gap: 12px; padding: clamp(32px, 5vw, 60px) 0 0; }
+.heroContent { gap: 8px; }
+.heroTag { font-size: clamp(16px, 3vw, 24px); line-height: 133%; }
+.heroTitle { font-size: clamp(28px, 6vw, 60px); line-height: 1.2; }
+
+/* ── Sections ── */
+.content { gap: clamp(64px, 8vw, 120px); }
+.sectionBlock { gap: clamp(20px, 3vw, 32px); }
+
+/* ── Full-bleed breakout (same technique as CRM's hero image) ── */
+.principlesContainer {
+  width: min(1320px, 100vw);
+  position: relative;
+  left: calc(50% - min(660px, 50vw));
+}
+
+/* ── FigJam embed: same visual footprint as the CRM hero image ── */
+.figjamParent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 4vw, 60px);
+  border-radius: 12px;
+  background-color: #E6E4E0;
+  overflow: hidden;
+}
+
+.figjamFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: -2px -2px 8px #faf9f5, 12px 8px 36px -4px rgba(166, 166, 162, 0.24);
+}
+
+.figjamEmbed {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}

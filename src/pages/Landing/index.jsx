@@ -17,7 +17,7 @@ const CASE_STUDIES = [
   {
     title: "Adoption is the perennial #1 challenge, but it's a symptom.",
     desc: "The tools and components exist—getting people to use them consistently is another matter entirely. Teams ship a fully documented design system and still watch product surfaces drift back into one-off patterns within a quarter, because the gap was never awareness or access. It was trust in the library, discoverability inside the file, and a workflow where the sanctioned pattern took longer to find than it did to just build one from scratch.",
-    cta: null,
+    cta: { to: '/adoption', label: 'View Case study' },
     image: null,
     alt: '',
   },

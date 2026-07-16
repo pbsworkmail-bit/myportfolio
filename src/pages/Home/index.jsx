@@ -371,7 +371,15 @@ const Home = () => {
         <div className={styles.sectionBlock}>
           <div className={styles.principlesContainer} data-reveal="scale">
             <div className={styles.image8Parent}>
-              <img className={styles.image8Icon} alt="" />
+              <div className={styles.embedFrame}>
+                <iframe
+                  className={styles.embedIframe}
+                  src="https://embed.figma.com/design/ZJqUhaJaJR367nO2CAPTKQ/Untitled?embed-host=share"
+                  allowFullScreen
+                  loading="lazy"
+                  title="Seller activation case study — Figma design"
+                />
+              </div>
             </div>
           </div>
         </div>
