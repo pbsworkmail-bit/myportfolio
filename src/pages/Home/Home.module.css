@@ -98,6 +98,42 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.embedLoading {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background-color: #fff;
+  pointer-events: none;
+}
+
+.embedSpinner {
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(13, 13, 13, 0.12);
+  border-top-color: #0d0d0d;
+  border-radius: 50%;
+  animation: embedSpin 0.8s linear infinite;
+}
+
+.embedLoadingText {
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  color: #888;
+}
+
+@keyframes embedSpin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .embedSpinner { animation: none; }
+}
+
 .image6Parent {
   display: flex;
   align-items: center;

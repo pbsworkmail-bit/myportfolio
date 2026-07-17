@@ -162,6 +162,7 @@ const SectionHeader = ({ title, sub }) => (
 const Home = () => {
   const constraintsRef = useRef(null);
   const [activeLayer, setActiveLayer] = useState(0);
+  const [designLoaded, setDesignLoaded] = useState(false);
 
   // Wheel + drag horizontal scrolling for the constraints card track
   useEffect(() => {
@@ -372,12 +373,19 @@ const Home = () => {
           <div className={styles.principlesContainer} data-reveal="scale">
             <div className={styles.image8Parent}>
               <div className={styles.embedFrame}>
+                {!designLoaded && (
+                  <div className={styles.embedLoading} aria-hidden="true">
+                    <span className={styles.embedSpinner} />
+                    <span className={styles.embedLoadingText}>Loading Figma design…</span>
+                  </div>
+                )}
                 <iframe
                   className={styles.embedIframe}
-                  src="https://embed.figma.com/design/ZJqUhaJaJR367nO2CAPTKQ/Untitled?embed-host=share"
+                  src="https://embed.figma.com/design/pdLbDfuhaSt4FYsYfRcpVx/Hifi-Screens?node-id=9-248&embed-host=share"
                   allowFullScreen
                   loading="lazy"
                   title="Seller activation case study — Figma design"
+                  onLoad={() => setDesignLoaded(true)}
                 />
               </div>
             </div>

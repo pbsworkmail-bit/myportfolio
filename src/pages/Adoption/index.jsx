@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import styles from './Adoption.module.css';
 
 const Adoption = () => {
+  const [boardLoaded, setBoardLoaded] = useState(false);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -46,6 +48,12 @@ const Adoption = () => {
             <div className={styles.principlesContainer} data-reveal="scale">
               <div className={styles.figjamParent}>
                 <div className={styles.figjamFrame}>
+                  {!boardLoaded && (
+                    <div className={styles.embedLoading} aria-hidden="true">
+                      <span className={styles.embedSpinner} />
+                      <span className={styles.embedLoadingText}>Loading FigJam board…</span>
+                    </div>
+                  )}
                   <iframe
                     className={styles.figjamEmbed}
                     src="https://embed.figma.com/board/nFgV09bahBlQCNv6k8Kg35/Untitled?node-id=0-1&embed-host=share"
@@ -53,6 +61,7 @@ const Adoption = () => {
                     allowFullScreen
                     loading="lazy"
                     title="Adoption case study — FigJam board"
+                    onLoad={() => setBoardLoaded(true)}
                   />
                 </div>
               </div>
