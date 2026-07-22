@@ -56,7 +56,7 @@ const Adoption = () => {
                   )}
                   <iframe
                     className={styles.figjamEmbed}
-                    src="https://embed.figma.com/board/nFgV09bahBlQCNv6k8Kg35/Untitled?node-id=0-1&embed-host=share"
+                    src="https://embed.figma.com/board/LrllGKtTw8UGi93D5DIprI/Key-Findings?node-id=0-1&embed-host=share"
                     allow="fullscreen"
                     allowFullScreen
                     loading="lazy"
