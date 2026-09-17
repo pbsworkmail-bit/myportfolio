@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import styles from './Home.module.css';
 
 const LAYERS = [
@@ -433,6 +434,7 @@ const Home = () => {
 
       </div>
       </div>
+      <Footer />
     </div>
   );
 };

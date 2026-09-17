@@ -1,15 +1,16 @@
 /* ── Shared patterns (mirrors Home.module.css hero layout exactly) ── */
-.container, .hero, .heroContent, .content, .sectionBlock {
+.container, .hero, .heroContent, .content, .sectionBlock, .section, .quoteBlock,
+.defTerm {
   display: flex;
   flex-direction: column;
 }
 
-.heroTag, .heroTitle {
-  font-family: 'Crimson Pro';
+.heroTag, .heroTitle, .sectionLabel, .sectionTitle {
+  font-family: 'Merriweather', serif;
   color: #0d0d0d;
 }
 
-.bodyText {
+.bodyText, .paragraph {
   font-size: 16px;
   line-height: 161.8%;
   font-family: Inter;
@@ -17,6 +18,7 @@
 }
 
 .bodyText em { font-style: italic; }
+.bodyText strong, .paragraph strong { font-weight: 600; }
 
 /* ── Container / hero ── */
 .container {
@@ -31,11 +33,118 @@
 .hero { gap: 12px; padding: clamp(32px, 5vw, 60px) 0 0; }
 .heroContent { gap: 8px; }
 .heroTag { font-size: clamp(16px, 3vw, 24px); line-height: 133%; }
-.heroTitle { font-size: clamp(28px, 6vw, 60px); line-height: 1.2; }
+.heroTitle { font-size: clamp(28px, 6vw, 60px); line-height: 1.25; }
 
 /* ── Sections ── */
 .content { gap: clamp(64px, 8vw, 120px); }
 .sectionBlock { gap: clamp(20px, 3vw, 32px); }
+.section { gap: 12px; }
+.sectionLabel { font-size: clamp(14px, 1.8vw, 18px); line-height: 133%; }
+.sectionTitle { font-size: clamp(22px, 3.5vw, 34px); line-height: 133%; }
+
+.paragraph {
+  width: 100%;
+  display: inline-block;
+  margin: 0 0 12px;
+}
+
+/* ── Quote ── */
+.quoteBlock { gap: 8px; }
+
+.quoteText {
+  font-size: clamp(20px, 3.5vw, 34px);
+  line-height: 133%;
+  font-family: 'Merriweather', serif;
+  color: #404040;
+  text-align: center;
+}
+
+/* ── Quote shift (reframe transitions) ── */
+.quoteShift {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: clamp(24px, 4vw, 40px);
+  border-radius: 12px;
+  background-color: #E6E4E0;
+}
+
+.quoteShiftOld {
+  font-size: clamp(15px, 2vw, 18px);
+  font-family: 'Merriweather', serif;
+  color: #8a8a86;
+  text-align: center;
+}
+
+.quoteShiftArrow { font-size: 14px; color: #b0b0ac; }
+
+.quoteShiftNew {
+  font-size: clamp(18px, 2.6vw, 24px);
+  font-family: 'Merriweather', serif;
+  font-weight: 400;
+  color: #0d0d0d;
+  text-align: center;
+}
+
+/* ── Definition list (friction points as cards) ── */
+.defList { display: flex; flex-wrap: wrap; gap: clamp(24px, 4vw, 48px); }
+
+.defTerm {
+  flex: 1 1 220px;
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 16px;
+  background-color: #f3f2ee;
+}
+
+.defIndex {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b0b0ac;
+  font-family: Inter, sans-serif;
+  margin-bottom: 10px;
+}
+
+.defTermTitle {
+  font-size: clamp(17px, 2vw, 20px);
+  font-weight: 400;
+  font-family: 'Merriweather', serif;
+  color: #0d0d0d;
+  margin-bottom: 8px;
+}
+
+.defTermBody {
+  font-size: 15px;
+  line-height: 161.8%;
+  font-family: Inter, sans-serif;
+  color: #404040;
+}
+
+/* ── Vocabulary / definition rows ── */
+.vocabList { display: flex; flex-direction: column; gap: 0; }
+
+.vocabRow {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 0.6px dashed #b0b0b0;
+}
+
+.vocabRole {
+  flex: 0 0 120px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0d0d0d;
+  font-family: Inter, sans-serif;
+}
+
+.vocabValues { font-size: 15px; font-family: 'Merriweather', serif; color: #404040; }
 
 /* ── Full-bleed breakout (same technique as CRM's hero image) ── */
 .principlesContainer {
@@ -81,10 +190,39 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
   background-color: #fff;
   pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+.embedLoadingHidden {
+  opacity: 0;
+}
+
+.embedLoadingInteractive {
+  pointer-events: auto;
+}
+
+.embedErrorText {
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  color: #888;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.embedFallbackLink {
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #0d0d0d;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.embedFallbackLink:hover { opacity: 0.7; }
 
 .embedSpinner {
   width: 22px;
@@ -101,10 +239,269 @@
   color: #888;
 }
 
+.embedProgressTrack {
+  display: block;
+  width: 140px;
+  height: 3px;
+  border-radius: 999px;
+  background-color: rgba(13, 13, 13, 0.08);
+  overflow: hidden;
+}
+
+.embedProgressFill {
+  display: block;
+  width: 40%;
+  height: 100%;
+  border-radius: 999px;
+  background-color: #0d0d0d;
+  animation: embedProgressSlide 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
 @keyframes embedSpin {
   to { transform: rotate(360deg); }
 }
 
+@keyframes embedProgressSlide {
+  0% { transform: translateX(-100%); }
+  60% { transform: translateX(220%); }
+  100% { transform: translateX(220%); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .embedSpinner { animation: none; }
+  .embedProgressFill { animation: none; width: 100%; }
+  .embedLoading { transition: none; }
+}
+
+/* ── Flow diagram ── */
+.diagramCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #E6E4E0;
+  border-radius: 12px;
+  padding: clamp(20px, 4vw, 60px);
+  overflow: hidden;
+}
+
+.diagramSvg { width: 100%; height: auto; display: block; }
+
+/* ── Full-bleed image ── */
+.imageParent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.imageIcon {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: -2px -2px 8px #faf9f5, 12px 8px 36px -4px rgba(166, 166, 162, 0.24);
+}
+
+/* ── Evidence question frame (1320×495, 8:3 master composition) ──
+   All measurements are declared twice: a vw-based clamp() fallback first,
+   then a cqw override so the frame scales exactly proportionally to its
+   own rendered width (not the viewport) in browsers that support container
+   query units. The override is simply ignored where unsupported, leaving
+   the fallback in effect — no @supports needed. */
+.evidenceFrame {
+  container-type: inline-size;
+  width: 100%;
+  max-width: 1320px;
+  background-color: #E6E4E0;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Values below are the exact Figma tokens (node 69:2), converted to this
+     frame's 1320px reference width, then run through the same dual
+     clamp()-fallback + cqw-override pattern as the rest of this composition. */
+  padding: clamp(40px, 6.74vw, 89px);
+  padding: 6.74cqw;
+  gap: clamp(40px, 6.74vw, 89px);
+  gap: 6.74cqw;
+}
+
+.evidenceIntroGroup {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.58vw, 34px);
+  gap: 2.58cqw;
+}
+
+.evidenceGapGroup {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.36vw, 18px);
+  gap: 1.36cqw;
+}
+
+/* ── Adoption Gap Flow stepper ── */
+.evidenceStepper {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.evidenceStepperCol {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 0.76vw, 10px);
+  gap: 0.76cqw;
+  padding: clamp(18px, 2.85vw, 38px) clamp(16px, 2.58vw, 34px);
+  padding: 2.85cqw 2.58cqw;
+  border-left: 1px dashed #99968C;
+}
+
+.evidenceStepperDividerEnd {
+  flex: 0 0 0;
+  border-left: 1px dashed #99968C;
+}
+
+.evidenceStepperIcon {
+  flex-shrink: 0;
+  width: clamp(16px, 1.82vw, 24px);
+  height: clamp(16px, 1.82vw, 24px);
+  width: 1.82cqw;
+  height: 1.82cqw;
+}
+
+.evidenceStepperLabel {
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  font-size: clamp(13px, 1.36vw, 18px);
+  font-size: 1.36cqw;
+  color: #707068;
+  white-space: nowrap;
+}
+
+.evidenceStepperColGap {
+  border-top: 1px dashed #FF0000;
+  border-bottom: 1px dashed #FF0000;
+  border-left: 1px dashed #FF0000;
+  margin-left: -1px;
+}
+
+.evidenceStepperColGap + .evidenceStepperCol {
+  border-left-color: #FF0000;
+}
+
+.evidenceStepperGapLabel {
+  font-family: Inter, sans-serif;
+  font-weight: 600;
+  font-style: italic;
+  font-size: clamp(13px, 1.36vw, 18px);
+  font-size: 1.36cqw;
+  color: #1A1A17;
+  white-space: nowrap;
+}
+
+.evidenceEyebrow {
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  font-size: clamp(15px, 1.52vw, 20px);
+  font-size: 1.52cqw;
+  line-height: 1.5;
+  letter-spacing: -0.019em;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.evidenceIntro {
+  font-family: 'Merriweather', serif;
+  font-weight: 400;
+  font-size: clamp(16px, 1.87vw, 24.7px);
+  font-size: 1.87cqw;
+  line-height: 1.5;
+  letter-spacing: -0.022em;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.evidenceHighlightWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.evidenceHighlight {
+  font-family: 'Merriweather', serif;
+  font-weight: 400;
+  font-size: clamp(22px, 2.58vw, 34px);
+  font-size: 2.58cqw;
+  line-height: 1.5;
+  letter-spacing: -0.022em;
+  color: rgba(0, 0, 0, 0.8);
+  background-color: #D6DAFF;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.evidenceClosing {
+  /* A narrative turning point, not body copy — constrained to a focused
+     610px reading measure (scaled via the same cqw system as the rest of
+     this frame, so it narrows proportionally on smaller screens) rather
+     than stretching to the section's full width. */
+  max-width: clamp(280px, 46.21vw, 610px);
+  max-width: 46.21cqw;
+  font-family: 'Merriweather', serif;
+  font-weight: 400;
+  font-size: clamp(16px, 1.87vw, 24.7px);
+  font-size: 1.87cqw;
+  line-height: 1.5;
+  letter-spacing: -0.022em;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* ── Post-diagram friction statement + closing insight ── */
+.frictionStatement {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 10px;
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+.frictionLead {
+  font-family: 'Merriweather', serif;
+  font-weight: 400;
+  font-size: clamp(20px, 3.5vw, 34px);
+  line-height: 1.35;
+  color: #0d0d0d;
+}
+
+.frictionTerm {
+  font-family: 'Merriweather', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 3.5vw, 34px);
+  line-height: 1.35;
+  color: #0d0d0d;
+  background-color: #F8D7E3;
+  padding: 0.02em 0.28em;
+  border-radius: 4px;
+}
+
+.insightBlock {
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+.insightLine {
+  font-family: 'Merriweather', serif;
+  font-weight: 400;
+  font-size: clamp(20px, 3.5vw, 34px);
+  line-height: 1.35;
+  color: #0d0d0d;
+}
+
+/* ── Responsive breakpoints ── */
+@media (max-width: 640px) {
+  .vocabRow { flex-direction: column; gap: 4px; }
+  .vocabRole { flex: none; }
 }

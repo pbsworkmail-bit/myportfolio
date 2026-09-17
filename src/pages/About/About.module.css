@@ -10,7 +10,7 @@
   max-width: 640px;
   margin: 0 auto;
   padding: 3em clamp(24px, 5vw, 40px);
-  font-family: 'Crimson Pro', serif;
+  font-family: 'Merriweather', serif;
   font-size: min(60px, 5.75vw);
   text-align: center;
   color: #1a1a1a;
@@ -21,7 +21,10 @@
   flex-direction: column;
   gap: 1em;
   font-weight: 400;
-  line-height: 1.33;
+  /* Bumped from 1.33 — this is the largest serif body text on the site
+     (up to 60px), so Merriweather's bigger x-height needed the most
+     breathing room here of anywhere on the page. */
+  line-height: 1.4;
   color: #262626;
 }
 
