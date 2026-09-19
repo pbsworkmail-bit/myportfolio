@@ -182,6 +182,36 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.fullscreenButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+  color: #0d0d0d;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.fullscreenButton:hover {
+  background-color: #fff;
+  transform: scale(1.05);
+}
+
+.fullscreenButton svg {
+  width: 16px;
+  height: 16px;
+}
+
 .embedLoading {
   position: absolute;
   inset: 0;
@@ -276,6 +306,7 @@
 /* ── Flow diagram ── */
 .diagramCard {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #E6E4E0;
@@ -463,15 +494,18 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   column-gap: 12px;
   row-gap: 10px;
-  margin-top: clamp(40px, 6vw, 72px);
+  margin: clamp(40px, 6vw, 72px) auto 0;
+  max-width: 852px;
+  text-align: center;
 }
 
 .frictionLead {
   font-family: 'Merriweather', serif;
   font-weight: 400;
-  font-size: clamp(20px, 3.5vw, 34px);
+  font-size: clamp(14px, 2.47vw, 24px);
   line-height: 1.35;
   color: #0d0d0d;
 }
@@ -480,7 +514,7 @@
   font-family: 'Merriweather', serif;
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(20px, 3.5vw, 34px);
+  font-size: clamp(14px, 2.47vw, 24px);
   line-height: 1.35;
   color: #0d0d0d;
   background-color: #F8D7E3;
@@ -490,6 +524,7 @@
 
 .insightBlock {
   margin-top: clamp(40px, 6vw, 72px);
+  text-align: center;
 }
 
 .insightLine {

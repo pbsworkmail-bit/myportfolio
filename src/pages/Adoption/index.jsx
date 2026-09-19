@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import styles from './Adoption.module.css';
@@ -154,6 +154,62 @@ const EmbedLoader = ({ status, label, fallbackHref }) => {
     </div>
   );
 };
+
+// Tracks fullscreen state for one specific element (via ref) rather than
+// document-wide, so multiple embeds on the same page don't interfere with
+// each other's button state.
+const useFullscreenToggle = () => {
+  const ref = useRef(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const onChange = () => {
+      const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      setIsFullscreen(!!fsEl && fsEl === ref.current);
+    };
+    document.addEventListener('fullscreenchange', onChange);
+    document.addEventListener('webkitfullscreenchange', onChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', onChange);
+      document.removeEventListener('webkitfullscreenchange', onChange);
+    };
+  }, []);
+
+  const toggle = () => {
+    const el = ref.current;
+    if (!el) return;
+    const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+    if (fsEl === el) {
+      (document.exitFullscreen || document.webkitExitFullscreen)?.call(document);
+    } else if (el.requestFullscreen) {
+      el.requestFullscreen();
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen();
+    }
+  };
+
+  return { ref, isFullscreen, toggle };
+};
+
+const FullscreenToggleButton = ({ isFullscreen, onToggle }) => (
+  <button
+    type="button"
+    className={styles.fullscreenButton}
+    onClick={onToggle}
+    aria-label={isFullscreen ? 'Exit fullscreen' : 'View fullscreen'}
+    title={isFullscreen ? 'Exit fullscreen' : 'View fullscreen'}
+  >
+    {isFullscreen ? (
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M8 3v3.5A1.5 1.5 0 0 1 6.5 8H3M12 3v3.5A1.5 1.5 0 0 0 13.5 8H17M8 17v-3.5A1.5 1.5 0 0 0 6.5 12H3M12 17v-3.5a1.5 1.5 0 0 1 1.5-1.5H17" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ) : (
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M3 7V4.5A1.5 1.5 0 0 1 4.5 3H7M13 3h2.5A1.5 1.5 0 0 1 17 4.5V7M17 13v2.5a1.5 1.5 0 0 1-1.5 1.5H13M7 17H4.5A1.5 1.5 0 0 1 3 15.5V13" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    )}
+  </button>
+);
 
 // Exact paths from the Figma file's exported icon assets (node 70:127 / 70:140).
 const IconKnow = () => (
@@ -348,7 +404,14 @@ const FrictionFlowDiagram = () => {
   // here after the diamonds were resized smaller). It can still shrink on
   // narrow viewports via the existing width:100%.
   return (
-    <div className={styles.diagramCard}>
+      <div className={styles.diagramCard}>
+      <div className={styles.frictionStatement}>
+        <span className={styles.frictionLead}>Each step introduced friction</span>
+        <span className={styles.frictionTerm}>search</span>
+        <span className={styles.frictionTerm}>uncertainty</span>
+        <span className={styles.frictionTerm}>waiting</span>
+        <span className={styles.frictionTerm}>extra effort.</span>
+      </div>
       <svg
         className={styles.diagramSvg}
         style={{ maxWidth: viewW }}
@@ -356,9 +419,6 @@ const FrictionFlowDiagram = () => {
         role="img"
         aria-label="As-is journey map: a feature request goes through design and discovery, then a decision on whether a matching component was found and fits. If not, it escalates to the design-system team over Slack before rejoining the flow. Next, teams decide to adapt the system component or exit to build something custom or legacy. Both paths lead to design review and QA, which may flag rework that re-enters the decision, before release — and that rework often becomes the precedent the next team copies."
       >
-        <rect x={SP.sm} y={tabY} width={textWidth('Design system adoption — as-is journey map', SUB_FONT, 'bold') + SP.lg} height={tabH} rx={RADIUS} fill="#f3f2ee" stroke="#e3e1db" strokeWidth="1" />
-        <text x={SP.sm + SP.sm} y={tabY + tabH / 2 + 4} fontFamily="Inter, sans-serif" fontSize={SUB_FONT} fontWeight="500" fill="#6b6b66">Design system adoption — as-is journey map</text>
-
         <FlowRect x={sx(cx)} y={yA} title="Feature Request" tone="neutral" />
         <line x1={sx(cx)} y1={yA + a.h / 2} x2={sx(cx)} y2={yB - b.h / 2} markerEnd="url(#arrow)" {...stroke} />
 
@@ -408,13 +468,17 @@ const FrictionFlowDiagram = () => {
           </marker>
         </defs>
       </svg>
-    </div>
+      </div>
   );
 };
 
 const Adoption = () => {
   const systemDesignEmbed = useEmbedLoadState();
   const boardEmbed = useEmbedLoadState();
+  const outcomeBoardEmbed = useEmbedLoadState();
+  const { ref: systemDesignFrameRef, isFullscreen: systemDesignIsFullscreen, toggle: toggleSystemDesignFullscreen } = useFullscreenToggle();
+  const { ref: boardFrameRef, isFullscreen: boardIsFullscreen, toggle: toggleBoardFullscreen } = useFullscreenToggle();
+  const { ref: outcomeBoardFrameRef, isFullscreen: outcomeBoardIsFullscreen, toggle: toggleOutcomeBoardFullscreen } = useFullscreenToggle();
   useFigmaEmbedDevLogger();
 
   useEffect(() => {
@@ -473,7 +537,8 @@ const Adoption = () => {
           <div className={styles.sectionBlock}>
             <div className={styles.principlesContainer} data-reveal="scale">
               <div className={styles.figjamParent}>
-                <div className={styles.figjamFrame}>
+                <div className={styles.figjamFrame} ref={systemDesignFrameRef}>
+                  <FullscreenToggleButton isFullscreen={systemDesignIsFullscreen} onToggle={toggleSystemDesignFullscreen} />
                   <EmbedLoader
                     status={systemDesignEmbed.status}
                     label="Loading Figma design…"
@@ -508,7 +573,8 @@ const Adoption = () => {
             </div>
             <div className={styles.principlesContainer} data-reveal="scale">
               <div className={styles.figjamParent}>
-                <div className={styles.figjamFrame}>
+                <div className={styles.figjamFrame} ref={boardFrameRef}>
+                  <FullscreenToggleButton isFullscreen={boardIsFullscreen} onToggle={toggleBoardFullscreen} />
                   <EmbedLoader
                     status={boardEmbed.status}
                     label="Loading Figma board…"
@@ -572,13 +638,6 @@ const Adoption = () => {
             </div>
             <div className={styles.principlesContainer} data-reveal="scale">
               <FrictionFlowDiagram />
-            </div>
-            <div className={styles.frictionStatement} data-reveal>
-              <span className={styles.frictionLead}>Each step introduced friction</span>
-              <span className={styles.frictionTerm}>search</span>
-              <span className={styles.frictionTerm}>uncertainty</span>
-              <span className={styles.frictionTerm}>waiting</span>
-              <span className={styles.frictionTerm}>extra effort.</span>
             </div>
             <div className={styles.insightBlock} data-reveal>
               <div className={styles.insightLine}>The problem wasn&rsquo;t that teams rejected the system.</div>
@@ -691,6 +750,28 @@ const Adoption = () => {
               ))}
             </div>
             <div className={styles.bodyText} data-reveal>The work that followed focused on those four moments.</div>
+            <div className={styles.principlesContainer} data-reveal="scale">
+              <div className={styles.figjamParent}>
+                <div className={styles.figjamFrame} ref={outcomeBoardFrameRef}>
+                  <FullscreenToggleButton isFullscreen={outcomeBoardIsFullscreen} onToggle={toggleOutcomeBoardFullscreen} />
+                  <EmbedLoader
+                    status={outcomeBoardEmbed.status}
+                    label="Loading Figma board…"
+                    fallbackHref="https://www.figma.com/board/6h9Xxl19x8gsZCcyMgXFCO/Case-Study-Outcome-%E2%80%94-Design-System-Adoption---the-2026-Tooling-Landscape?node-id=0-1"
+                  />
+                  <iframe
+                    className={styles.figjamEmbed}
+                    src="https://embed.figma.com/board/6h9Xxl19x8gsZCcyMgXFCO/Case-Study-Outcome-%E2%80%94-Design-System-Adoption---the-2026-Tooling-Landscape?node-id=0-1&embed-host=share"
+                    allow="fullscreen"
+                    allowFullScreen
+                    loading="lazy"
+                    title="Case Study Outcome — Design System Adoption in the 2026 Tooling Landscape"
+                    onLoad={outcomeBoardEmbed.onLoad}
+                    onError={outcomeBoardEmbed.onError}
+                  />
+                </div>
+              </div>
+            </div>
             <div className={styles.quoteBlock} data-reveal>
               <div className={styles.quoteText}>
                 Not more things for teams to learn.<br />
