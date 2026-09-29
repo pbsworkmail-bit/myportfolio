@@ -58,6 +58,42 @@
 
 .outcomeText { margin: 0 0 12px; font-style: italic; }
 
+/* ── Research Evidence Base: reference groups ── */
+.referenceGroup { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+.referenceGroup + .referenceGroup { margin-top: 28px; }
+
+.referenceList {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.referenceItem {
+  font-size: 16px;
+  line-height: 161.8%;
+  font-family: Inter;
+  color: #404040;
+  max-width: 70ch;
+}
+
+/* Secondary group reads as lower-weight evidence via smaller type, not a
+   new (and potentially low-contrast) muted colour. */
+.referenceListSecondary .referenceItem { font-size: 15px; }
+
+.referenceByline {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid #b0b0b0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.referenceByline .outcomeText { margin: 0; }
+
 .imageWrapper { width: 100%; }
 .image { width: 100%; height: auto; display: block; }
 

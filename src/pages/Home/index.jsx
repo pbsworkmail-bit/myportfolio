@@ -132,13 +132,45 @@ const OUTCOMES = [
   "**For the product:** The Deals module shifted from destination (you go to it when asked) to orientation (it comes to you before you make decisions). This repositioned Worktual against Salesforce's Agentforce — gated behind $165+/user/month — for mid-market buyers where the gap between SMB simplicity (Pipedrive's Rotting flag) and enterprise sophistication (Salesforce Pipeline Inspection) was widest and most commercially underserved.",
 ];
 
-const REFERENCES = [
-  '**Peer-reviewed / Academic**',
-  'Thiess, Müller & Tonelli (2020), *Wirtschaftsinformatik* — explainable win-propensity prediction design principles · Habel, Alavi & Heinitz (2023), *AMS Review* — PSAA adoption model · Habel, Alavi & Heinitz (2024), *JMR* — predictive analytics field experiment, 9.7M transactions · Rateb, Keating & Wang (2025), *Industrial Marketing Management* — micro-level B2B deal tactics · Dietvorst, Simmons & Massey (2015), *J. Exp. Psych: General* — algorithm aversion · Dietvorst, Simmons & Massey (2018), *Management Science* — editability and aversion mitigation · Brynjolfsson, Li & Raymond (2023/2025), *QJE* — generative AI at work, 5,179 agents · Bansal et al. (2021), *CHI* — AI explanations and complementary team performance · Buçinca, Malaya & Gajos (2021), *CSCW* — cognitive forcing and over-reliance · Rangarajan et al. (2026), *JPSSM* — AI trust in sales organisations',
-  '**Industry Benchmarks** *(directionally useful; not peer-reviewed)*',
-  'Dixon & McKenna (2022), *The JOLT Effect* — 2.5M+ conversations · Ebsta & Pavilion (2024/2025) — 4.2M opportunities, $54B revenue · Gartner — Buying Journey, forecast accuracy, SFA Magic Quadrant · Salesforce State of Sales 5th Ed. — 5,500 respondents · AskElephant (2025) · Kluster (2024)',
-  '---',
+const REFERENCE_GROUPS = [
+  {
+    heading: 'Peer-reviewed / Academic',
+    caveat: null,
+    tone: 'primary',
+    items: [
+      { authors: 'Thiess, Müller & Tonelli', year: '2020', venue: 'Wirtschaftsinformatik', finding: 'explainable win-propensity prediction design principles' },
+      { authors: 'Habel, Alavi & Heinitz', year: '2023', venue: 'AMS Review', finding: 'PSAA adoption model' },
+      { authors: 'Habel, Alavi & Heinitz', year: '2024', venue: 'JMR', finding: 'predictive analytics field experiment, 9.7M transactions' },
+      { authors: 'Rateb, Keating & Wang', year: '2025', venue: 'Industrial Marketing Management', finding: 'micro-level B2B deal tactics' },
+      { authors: 'Dietvorst, Simmons & Massey', year: '2015', venue: 'J. Exp. Psych: General', finding: 'algorithm aversion' },
+      { authors: 'Dietvorst, Simmons & Massey', year: '2018', venue: 'Management Science', finding: 'editability and aversion mitigation' },
+      { authors: 'Brynjolfsson, Li & Raymond', year: '2023/2025', venue: 'QJE', finding: 'generative AI at work, 5,179 agents' },
+      { authors: 'Bansal et al.', year: '2021', venue: 'CHI', finding: 'AI explanations and complementary team performance' },
+      { authors: 'Buçinca, Malaya & Gajos', year: '2021', venue: 'CSCW', finding: 'cognitive forcing and over-reliance' },
+      { authors: 'Rangarajan et al.', year: '2026', venue: 'JPSSM', finding: 'AI trust in sales organisations' },
+    ],
+  },
+  {
+    heading: 'Industry Benchmarks',
+    caveat: 'Directionally useful; not peer-reviewed',
+    tone: 'secondary',
+    items: [
+      { authors: 'Dixon & McKenna', year: '2022', venue: 'The JOLT Effect', finding: '2.5M+ conversations' },
+      { authors: 'Ebsta & Pavilion', year: '2024/2025', venue: null, finding: '4.2M opportunities, $54B revenue' },
+      // TODO: confirm year/finding — source only gives report scope (Buying Journey,
+      // forecast accuracy, SFA Magic Quadrant), no publication year or headline figure
+      { authors: 'Gartner', year: null, venue: 'Buying Journey, forecast accuracy, SFA Magic Quadrant', finding: null },
+      { authors: 'Salesforce', year: null, venue: 'State of Sales 5th Ed.', finding: '5,500 respondents' },
+      // TODO: confirm year/finding — source only names the vendor, no finding given
+      { authors: 'AskElephant', year: '2025', venue: null, finding: null },
+      // TODO: confirm year/finding — source only names the vendor, no finding given
+      { authors: 'Kluster', year: '2024', venue: null, finding: null },
+    ],
+  },
 ];
+
+const BYLINE = 'Praveen — UX Designer, Worktual AI · June 2026';
+const METHOD_NOTE = "Evidence labelling: peer-reviewed sources cited author–year–journal; industry benchmarks noted with a quality caveat; vendor-claimed ROI not used as primary design justification.";
 
 const renderText = (text) => {
   const parts = text.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
@@ -152,12 +184,21 @@ const renderText = (text) => {
 
 const BASE = import.meta.env.BASE_URL;
 
-const SectionHeader = ({ title, sub }) => (
+const SectionHeader = ({ eyebrow, title, sub }) => (
   <>
-    <div className={styles.sectionLabel}>Overline</div>
+    <div className={styles.sectionLabel}>{eyebrow}</div>
     <div className={styles.sectionTitle}>{title}</div>
     {sub && <div className={styles.subHeader}>{sub}</div>}
   </>
+);
+
+// Authors (Year) — Venue — finding, with graceful omission of any missing piece.
+const ReferenceItem = ({ authors, year, venue, finding }) => (
+  <li className={styles.referenceItem}>
+    {authors}{year ? ` (${year})` : ''}
+    {venue && <> — <em>{venue}</em></>}
+    {finding && <> — {finding}</>}
+  </li>
 );
 
 const Home = () => {
@@ -279,7 +320,7 @@ const Home = () => {
         {/* Block 3: Research */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
-            <SectionHeader title="What the Research Established" />
+            <SectionHeader eyebrow="Research" title="What the Research Established" />
             <div className={styles.bodyText}>Five research bodies were synthesised: B2B sales pipeline management (academic + practitioner), CRM competitive capabilities, deal decay mechanisms, SaaS executive AI briefing patterns, and human-AI interaction in enterprise software. Evidence was labelled by quality tier throughout: peer-reviewed, large-n industry benchmark, or vendor-reported.</div>
             <div className={styles.readLink}>READ SYNTHESIS</div>
           </div>
@@ -318,7 +359,7 @@ const Home = () => {
         {/* Block 4: Constraints */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
-            <SectionHeader title="Constraints That Shaped the Design" />
+            <SectionHeader eyebrow="Constraints" title="Constraints That Shaped the Design" />
           </div>
           <div className={styles.cardsTrack} ref={constraintsRef} data-reveal data-delay="1">
             {CONSTRAINTS.map((c) => (
@@ -334,7 +375,7 @@ const Home = () => {
         {/* Block 5: Decisions */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
-            <SectionHeader title="Five Decisions, With Their Trade-offs" />
+            <SectionHeader eyebrow="Decisions" title="Five Decisions, With Their Trade-offs" />
           </div>
           <div className={styles.principlesContainer}>
             <div className={styles.principlesList}>
@@ -360,7 +401,7 @@ const Home = () => {
         {/* Block 6: Outcomes */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
-            <SectionHeader title="What the Brief Was Designed to Change" sub="Sub header" />
+            <SectionHeader eyebrow="Outcomes" title="What the Brief Was Designed to Change" sub="What success would look like for reps, pipeline health, and the product — defined as proxies, not confirmed outcomes." />
             <div className={styles.bodyText}>
               {OUTCOMES.map((p, i) => (
                 <p key={i} className={i === OUTCOMES.length - 1 ? styles.outcomeText : styles.paragraph}>{renderText(p)}</p>
@@ -396,7 +437,7 @@ const Home = () => {
         {/* Block 7: Reflection */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
-            <SectionHeader title="What Failed and What I'd Do Differently" />
+            <SectionHeader eyebrow="Reflection" title="What Failed and What I'd Do Differently" />
           </div>
           <div className={styles.principlesContainer}>
             <div className={styles.reflectionGrid}>
@@ -422,12 +463,27 @@ const Home = () => {
         {/* Block 8: References */}
         <div className={styles.sectionBlock}>
           <div className={styles.section} data-reveal>
-            <SectionHeader title="Research Evidence Base" sub="Sub header" />
-            <div className={styles.bodyText}>
-              {REFERENCES.map((p, i) => (
-                <p key={i} className={styles.paragraph}>{p}</p>
-              ))}
-              <p className={styles.outcomeText}>*Praveen — UX Designer, Worktual AI · June 2026 · Evidence labelling: peer-reviewed sources cited author-year-journal; industry benchmarks noted with quality caveat; vendor-claimed ROI not used as primary design justification.*</p>
+            <SectionHeader
+              eyebrow="Sources"
+              title="Research Evidence Base"
+              sub="What the design decisions in this case study rest on, and how much weight each source carries."
+            />
+            {REFERENCE_GROUPS.map((group) => (
+              <div key={group.heading} className={styles.referenceGroup}>
+                <h3 className={styles.decisionTitle}>{group.heading}</h3>
+                {group.caveat && <p className={styles.outcomeText}>{group.caveat}</p>}
+                <ul
+                  className={`${styles.referenceList}${group.tone === 'secondary' ? ` ${styles.referenceListSecondary}` : ''}`}
+                >
+                  {group.items.map((item, i) => (
+                    <ReferenceItem key={`${item.authors}-${i}`} {...item} />
+                  ))}
+                </ul>
+              </div>
+            ))}
+            <div className={styles.referenceByline}>
+              <p className={styles.outcomeText}>{BYLINE}</p>
+              <p className={styles.outcomeText}>{METHOD_NOTE}</p>
             </div>
           </div>
         </div>
