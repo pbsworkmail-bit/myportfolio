@@ -5,7 +5,7 @@ import Footer from '../../components/Footer'
 import styles from './Landing.module.css'
 
 const BASE = import.meta.env.BASE_URL
-const HERO_TEXT = 'Praveen Babu'
+const HERO_TEXT = 'Making things simpler is rarely simple'
 
 const CASE_STUDIES = [
   {
@@ -35,6 +35,7 @@ export default function Landing() {
   const caseRef   = useRef(null)
   const pageRef   = useRef(null)
   const ctaRef    = useRef(null)
+  const imageRef  = useRef(null)
 
   const scrollToCases = () => {
     caseRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -72,6 +73,7 @@ export default function Landing() {
       if (textRef.current)   textRef.current.textContent = HERO_TEXT
       if (bioRef.current)    bioRef.current.classList.add(styles.heroBioVisible)
       if (cursorRef.current) cursorRef.current.style.display = 'none'
+      if (imageRef.current)  imageRef.current.classList.add(styles.heroImageVisible)
       return
     }
 
@@ -100,20 +102,44 @@ export default function Landing() {
       later(startMorph, BLINK_CYCLES * BLINK_PERIOD + 100)
     }
 
+    // ── Illustration reveal, driven by typewriter progress ────
+    const IMAGE_BLUR_MAX = 26
+    const IMAGE_SCALE_MAX = 0.04
+    const revealImage = (progress) => {
+      const img = imageRef.current
+      if (!img) return
+      const eased = 1 - Math.pow(1 - progress, 3)
+      img.style.opacity = eased.toFixed(3)
+      img.style.filter = `blur(${((1 - eased) * IMAGE_BLUR_MAX).toFixed(2)}px)`
+      img.style.transform = `scale(${(1 + IMAGE_SCALE_MAX - eased * IMAGE_SCALE_MAX).toFixed(4)})`
+    }
+
     // ── Phase 1: typewriter ───────────────────────────────────
     let charIndex = 0
     const typeNext = () => {
       if (!textRef.current) return
       textRef.current.textContent = HERO_TEXT.slice(0, charIndex + 1)
       charIndex++
+      revealImage(charIndex / HERO_TEXT.length)
       if (charIndex < HERO_TEXT.length) {
         const prev = HERO_TEXT[charIndex - 1]
-        const delay = 58 + Math.random() * 58 + (prev === ' ' ? 80 : 0)
+        const delay = 36 + Math.random() * 36 + (prev === ' ' ? 50 : 0)
         later(typeNext, delay)
       } else {
+        later(() => {
+          const img = imageRef.current
+          if (img) {
+            img.style.opacity = ''
+            img.style.filter = ''
+            img.style.transform = ''
+            img.classList.add(styles.heroImageVisible)
+          }
+        }, 150)
         later(startBlink, 250)
       }
     }
+
+    later(() => revealImage(0), 350)
 
     later(typeNext, 350)
 
@@ -133,11 +159,19 @@ export default function Landing() {
               <span ref={cursorRef} className={styles.cursor} aria-hidden="true" />
             </h1>
             <p ref={bioRef} className={styles.heroBio}>
-              a UI/UX Designer focused on creating intuitive, scalable interfaces for enterprise SaaS platforms.
-              My work spans design systems, data dashboards, and Agentic AI experiences that blend clarity, function,
-              and emotion. Skilled in Figma, interaction design, and motion, I believe great design simplifies
-              complexity and helps users work smarter through thoughtful, consistent, and human-centered experiences.
+              I'm Praveen Babu, a Product Designer who works on complex B2B software, from contact centres to CRM.
+              Complicated doesn't always mean unnecessary. Some of it is the problem itself, so I understand it
+              first, then separate what's essential from what only gets in the way.
             </p>
+          </div>
+
+          <div className={styles.heroVisual}>
+            <img
+              ref={imageRef}
+              src={`${BASE}portfolio-illustration.png`}
+              alt="Illustrated collage of a person sitting in a chair, reading"
+              className={styles.heroImage}
+            />
           </div>
 
           <button ref={ctaRef} type="button" className={styles.scrollCta} onClick={scrollToCases} aria-label="Scroll to case studies">
@@ -146,6 +180,24 @@ export default function Landing() {
               <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
+        </section>
+
+        {/* ── Philosophy / Design Approach ── */}
+        <section className={styles.philosophy}>
+          <div className={styles.philosophyContent}>
+            <h2 className={styles.philosophyHeadline}>
+              Good design doesn't make everything simple.{' '}
+              <span className={styles.philosophyHighlight}>It makes everything as simple as it should be.</span>
+            </h2>
+            <p className={styles.philosophyBody}>
+              That's why I don't stop at solving the problem in front of me. I also question whether it's the
+              right problem, and the right way to solve it.
+            </p>
+          </div>
+          <div className={styles.philosophyArt} aria-hidden="true">
+            <span className={styles.philosophyHalo} />
+            <span className={styles.philosophyGlow} />
+          </div>
         </section>
 
         {/* ── Case Studies Section ── */}

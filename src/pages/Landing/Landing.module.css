@@ -26,8 +26,11 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: clamp(40px, 6vw, 96px);
   padding: clamp(48px, 8vh, 120px) clamp(20px, 4.5vw, 60px);
   scroll-snap-align: start;
+  flex-wrap: wrap;
 }
 
 @keyframes scrollCtaBounce {
@@ -68,14 +71,45 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  flex: 1 1 480px;
+  max-width: 610px;
+  min-width: 0;
+}
+
+.heroVisual {
+  flex: 0 1 460px;
+  display: flex;
+  justify-content: center;
+}
+
+.heroImage {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  display: block;
+  opacity: 0;
+  filter: blur(26px);
+  transform: scale(1.04);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.heroImageVisible {
+  opacity: 1;
+  filter: blur(0px);
+  transform: scale(1);
 }
 
 .heroName {
+  width: 100%;
+  max-width: 610px;
   font-family: 'Merriweather', serif;
-  font-size: clamp(40px, 7.5vw + 12px, 120px);
+  font-size: clamp(28px, 6vw, 60px);
   font-weight: 400;
   color: #0d0d0d;
-  line-height: 1.1;
+  line-height: 1.25;
   margin: 0 0 clamp(16px, 2.5vh, 28px);
 }
 
@@ -98,7 +132,7 @@
 
 .heroBio {
   width: 100%;
-  max-width: 866px;
+  max-width: 610px;
   margin: 0;
   font-family: Inter, sans-serif;
   font-size: clamp(14px, 1.3vw, 16px);
@@ -114,6 +148,93 @@
 @media (prefers-reduced-motion: reduce) {
   .cursor { display: none; }
   .heroBio { opacity: 1; transform: none; transition: none; }
+  .heroImage { opacity: 1; filter: none; transform: none; transition: none; }
+}
+
+/* ── Philosophy / Design Approach ── */
+.philosophy {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: clamp(120px, 18vh, 220px) clamp(20px, 4.5vw, 60px) clamp(80px, 12vh, 160px);
+  border-radius: 20px;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+.philosophyArt {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.philosophyHalo,
+.philosophyGlow {
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.philosophyHalo {
+  width: min(1100px, 92vw);
+  height: min(1100px, 92vw);
+  background:
+    radial-gradient(circle at 55% 45%, rgba(169, 201, 197, 0.5) 0%, rgba(169, 201, 197, 0) 55%),
+    radial-gradient(circle at 70% 65%, rgba(156, 181, 156, 0.4) 0%, rgba(156, 181, 156, 0) 60%);
+  filter: blur(70px);
+}
+
+.philosophyGlow {
+  width: min(760px, 64vw);
+  height: min(760px, 64vw);
+  background:
+    radial-gradient(circle at 42% 38%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 30%),
+    radial-gradient(circle at 50% 48%, rgba(200, 222, 212, 0.75) 0%, rgba(200, 222, 212, 0) 48%),
+    radial-gradient(ellipse at 62% 60%, rgba(146, 173, 168, 0.5) 0%, rgba(146, 173, 168, 0) 58%),
+    radial-gradient(circle at 75% 30%, rgba(168, 197, 201, 0.45) 0%, rgba(168, 197, 201, 0) 50%),
+    radial-gradient(circle at 50% 50%, rgba(13, 13, 13, 0.04) 0%, rgba(13, 13, 13, 0) 65%);
+  filter: blur(18px);
+}
+
+.philosophyContent {
+  position: relative;
+  z-index: 2;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(20px, 3vh, 28px);
+}
+
+.philosophyHeadline {
+  margin: 0;
+  max-width: 560px;
+  font-family: 'Merriweather', serif;
+  font-weight: 400;
+  font-size: clamp(28px, 3.8vw, 46px);
+  line-height: 1.32;
+  color: #0d0d0d;
+  text-wrap: balance;
+}
+
+.philosophyHighlight {
+  background-color: #D9E8E1;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.philosophyBody {
+  margin: 0;
+  max-width: 440px;
+  font-family: Inter, sans-serif;
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.75;
+  color: #606060;
 }
 
 /* ── Case Studies Section ── */
@@ -121,7 +242,7 @@
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 clamp(20px, 4.5vw, 60px);
+  padding: clamp(64px, 9vh, 120px) clamp(20px, 4.5vw, 60px) 0;
   margin-bottom: clamp(24px, 4vh, 40px);
   scroll-snap-align: start;
 }
@@ -214,11 +335,20 @@
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .heroName { margin: 0 0 clamp(14px, 2vh, 20px); }
+  .heroVisual { flex: 1 1 100%; order: 2; }
+  .heroImage { max-width: 280px; }
+  .philosophy { padding: clamp(80px, 12vh, 140px) clamp(20px, 4.5vw, 60px); }
+  .philosophyHeadline, .philosophyBody { max-width: 460px; }
+  .philosophyHalo, .philosophyGlow { left: 62%; }
   .caseInner { grid-template-columns: 1fr; gap: clamp(32px, 5vw, 48px); }
   .caseTitle { font-size: clamp(22px, 5vw, 34px); }
 }
 
 @media (max-width: 480px) {
+  .philosophy { padding: clamp(64px, 10vh, 100px) 20px; }
+  .philosophyHeadline { font-size: clamp(24px, 7vw, 30px); max-width: 100%; }
+  .philosophyBody { max-width: 100%; }
+  .philosophyHalo, .philosophyGlow { left: 50%; top: 42%; }
   .caseSection { padding: 0 0 clamp(60px, 8vh, 96px); }
   .caseBtn { width: 100%; justify-content: center; }
 }
