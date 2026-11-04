@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import ParticleField from '../../components/ParticleField'
 import styles from './Landing.module.css'
 
 const BASE = import.meta.env.BASE_URL
@@ -35,7 +36,7 @@ export default function Landing() {
   const caseRef   = useRef(null)
   const pageRef   = useRef(null)
   const ctaRef    = useRef(null)
-  const imageRef  = useRef(null)
+  const artRef    = useRef(null)
 
   const scrollToCases = () => {
     caseRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -73,7 +74,7 @@ export default function Landing() {
       if (textRef.current)   textRef.current.textContent = HERO_TEXT
       if (bioRef.current)    bioRef.current.classList.add(styles.heroBioVisible)
       if (cursorRef.current) cursorRef.current.style.display = 'none'
-      if (imageRef.current)  imageRef.current.classList.add(styles.heroImageVisible)
+      if (artRef.current)    artRef.current.classList.add(styles.heroArtVisible)
       return
     }
 
@@ -102,44 +103,26 @@ export default function Landing() {
       later(startMorph, BLINK_CYCLES * BLINK_PERIOD + 100)
     }
 
-    // ── Illustration reveal, driven by typewriter progress ────
-    const IMAGE_BLUR_MAX = 26
-    const IMAGE_SCALE_MAX = 0.04
-    const revealImage = (progress) => {
-      const img = imageRef.current
-      if (!img) return
-      const eased = 1 - Math.pow(1 - progress, 3)
-      img.style.opacity = eased.toFixed(3)
-      img.style.filter = `blur(${((1 - eased) * IMAGE_BLUR_MAX).toFixed(2)}px)`
-      img.style.transform = `scale(${(1 + IMAGE_SCALE_MAX - eased * IMAGE_SCALE_MAX).toFixed(4)})`
-    }
-
     // ── Phase 1: typewriter ───────────────────────────────────
     let charIndex = 0
     const typeNext = () => {
       if (!textRef.current) return
       textRef.current.textContent = HERO_TEXT.slice(0, charIndex + 1)
       charIndex++
-      revealImage(charIndex / HERO_TEXT.length)
       if (charIndex < HERO_TEXT.length) {
         const prev = HERO_TEXT[charIndex - 1]
         const delay = 36 + Math.random() * 36 + (prev === ' ' ? 50 : 0)
         later(typeNext, delay)
       } else {
-        later(() => {
-          const img = imageRef.current
-          if (img) {
-            img.style.opacity = ''
-            img.style.filter = ''
-            img.style.transform = ''
-            img.classList.add(styles.heroImageVisible)
-          }
-        }, 150)
         later(startBlink, 250)
       }
     }
 
-    later(() => revealImage(0), 350)
+    // Particle field fades in alongside the start of typing; its own
+    // chaos → order choreography runs independently from there.
+    later(() => {
+      if (artRef.current) artRef.current.classList.add(styles.heroArtVisible)
+    }, 350)
 
     later(typeNext, 350)
 
@@ -166,12 +149,9 @@ export default function Landing() {
           </div>
 
           <div className={styles.heroVisual}>
-            <img
-              ref={imageRef}
-              src={`${BASE}portfolio-illustration.png`}
-              alt="Illustrated collage of a person sitting in a chair, reading"
-              className={styles.heroImage}
-            />
+            <div ref={artRef} className={styles.heroArt} role="img" aria-label="Generative particle animation">
+              <ParticleField />
+            </div>
           </div>
 
           <button ref={ctaRef} type="button" className={styles.scrollCta} onClick={scrollToCases} aria-label="Scroll to case studies">

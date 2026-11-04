@@ -82,25 +82,15 @@
   justify-content: center;
 }
 
-.heroImage {
+.heroArt {
   width: 100%;
   max-width: 460px;
-  height: auto;
-  display: block;
+  aspect-ratio: 622 / 566;
   opacity: 0;
-  filter: blur(26px);
-  transform: scale(1.04);
-  transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.heroImageVisible {
-  opacity: 1;
-  filter: blur(0px);
-  transform: scale(1);
-}
+.heroArtVisible { opacity: 1; }
 
 .heroName {
   width: 100%;
@@ -148,7 +138,7 @@
 @media (prefers-reduced-motion: reduce) {
   .cursor { display: none; }
   .heroBio { opacity: 1; transform: none; transition: none; }
-  .heroImage { opacity: 1; filter: none; transform: none; transition: none; }
+  .heroArt { opacity: 1; transition: none; }
 }
 
 /* ── Philosophy / Design Approach ── */
@@ -336,7 +326,7 @@
 @media (max-width: 900px) {
   .heroName { margin: 0 0 clamp(14px, 2vh, 20px); }
   .heroVisual { flex: 1 1 100%; order: 2; }
-  .heroImage { max-width: 280px; }
+  .heroArt { max-width: 280px; }
   .philosophy { padding: clamp(80px, 12vh, 140px) clamp(20px, 4.5vw, 60px); }
   .philosophyHeadline, .philosophyBody { max-width: 460px; }
   .philosophyHalo, .philosophyGlow { left: 62%; }
