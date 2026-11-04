@@ -5,19 +5,23 @@ import styles from './ParticleField.module.css'
 // Thresholds are keyed to the particle field's own container width (capped
 // at 460px on desktop by .heroArt, down to 280px/less on the hero's mobile
 // breakpoint) — not the viewport width — since that's the box actually
-// being populated. 770 is the desktop ceiling because it's below every
-// illustration's own blue-noise (minimum-distance) pool size — the
-// smallest is bird's 783 points (see illustrations.js) — so the count
-// never exceeds what a given illustration can supply at its tuned,
-// edge-aware spacing. Going higher would force the thin fallback padding
-// in fitIllustration to kick in for some illustrations and reintroduce
-// exactly the clustering that spacing was tuned to avoid.
+// being populated. 800 is the desktop ceiling because it's below every
+// illustration's own pool size — the smallest is bird's 826 points (see
+// illustrations.js: contour-traced structure points + density-weighted
+// fill) — so the count never exceeds what a given illustration can
+// supply. Going higher would force the thin fallback padding in
+// fitIllustration to kick in for some illustrations and reintroduce
+// exactly the clustering that spacing was tuned to avoid. The other four
+// illustrations' pools are now substantially larger (995–2076) thanks to
+// particle-size-calibrated spacing, so even at this same shared count
+// their actually-rendered subset is drawn from a far less overlap-prone
+// distribution than before.
 function getParticleCount(width) {
   const lowPower = typeof navigator !== 'undefined' && navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4
   let base
-  if (width <= 220) base = 210
-  else if (width <= 340) base = 335
-  else base = 770
+  if (width <= 220) base = 215
+  else if (width <= 340) base = 345
+  else base = 800
   return lowPower ? Math.round(base * 0.75) : base
 }
 
@@ -32,7 +36,11 @@ export default function ParticleField() {
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const ctx = canvas.getContext('2d')
-    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    // Capped at 2 previously — raised to 3 since the particle count here
+    // (a few hundred to ~2000 small circles) is cheap enough that the
+    // extra canvas resolution costs negligible frame time, and fine dot
+    // edges were measurably softer at 2x on 3x-DPR phones.
+    const dpr = Math.min(window.devicePixelRatio || 1, 3)
 
     const measure = () => {
       const rect = wrap.getBoundingClientRect()

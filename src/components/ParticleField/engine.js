@@ -103,6 +103,13 @@ const ACCENT_RATIO = 0.3
 // power curve on rng(), rather than a flat 0..1 spread, so most dots stay
 // light and a few naturally read as emphasis rather than every dot
 // competing for the same visual weight.
+//
+// Deliberately smaller than earlier tuning (was 0.9–3.3px radius, now
+// ~0.6–2.1px): the Python-side sampler's minimum inter-point spacing is
+// calibrated against this exact size range (see illustrations.js /
+// work/sample_final.py) so dense detail areas pack as tightly as
+// possible without the dots visually fusing into blobs — if this range
+// changes, the spacing calibration needs to be revisited too.
 const SIZE_SCALE = 0.95
 
 export class ParticleSystem {
@@ -138,7 +145,7 @@ export class ParticleSystem {
         sx: x, sy: y,
         tx: x, ty: y,
         vx: 0, vy: 0,
-        size: (0.9 + Math.pow(rng(), 1.7) * 2.6) * SIZE_SCALE,
+        size: (0.65 + Math.pow(rng(), 1.7) * 1.6) * SIZE_SCALE,
         opacity: 0.3 + rng() * 0.5,
         nx: rng() * 1000,
         ny: rng() * 1000,

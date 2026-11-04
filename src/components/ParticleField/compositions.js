@@ -1,13 +1,13 @@
 // Reference-driven composition library — each generator returns a fixed
 // set of target coordinates reconstructing one of five supplied reference
-// illustrations (Eye, Flower, Bird, Whale, Milky Way Galaxy) from
+// illustrations (Turtle, Flower, Bird, Whale, Milky Way Galaxy) from
 // precomputed, density-weighted point data (see illustrations.js and the
 // offline sampling pipeline that produced it). Density in the source
-// artwork — a bird's solid body vs its fading wingtip, an eye's dark iris
-// vs its pupil's negative space — is preserved by WHERE points were
+// artwork — a bird's solid body vs its fading wingtip, a turtle's shell
+// scutes vs the gaps between them — is preserved by WHERE points were
 // sampled, not by varying each point's weight at render time.
 import {
-  EYE_ASPECT, EYE_POINTS,
+  TURTLE_ASPECT, TURTLE_POINTS,
   FLOWER_ASPECT, FLOWER_POINTS,
   BIRD_ASPECT, BIRD_POINTS,
   WHALE_ASPECT, WHALE_POINTS,
@@ -64,7 +64,7 @@ function computeVisualStats(points, aspect) {
 }
 
 const STATS = {
-  eye: computeVisualStats(EYE_POINTS, EYE_ASPECT),
+  turtle: computeVisualStats(TURTLE_POINTS, TURTLE_ASPECT),
   flower: computeVisualStats(FLOWER_POINTS, FLOWER_ASPECT),
   bird: computeVisualStats(BIRD_POINTS, BIRD_ASPECT),
   whale: computeVisualStats(WHALE_POINTS, WHALE_ASPECT),
@@ -126,7 +126,7 @@ function fitIllustration(points, stats, count, w, h) {
 }
 
 export const COMPOSITIONS = [
-  { name: 'eye', generate: (count, w, h) => fitIllustration(EYE_POINTS, STATS.eye, count, w, h) },
+  { name: 'turtle', generate: (count, w, h) => fitIllustration(TURTLE_POINTS, STATS.turtle, count, w, h) },
   { name: 'flower', generate: (count, w, h) => fitIllustration(FLOWER_POINTS, STATS.flower, count, w, h) },
   { name: 'bird', generate: (count, w, h) => fitIllustration(BIRD_POINTS, STATS.bird, count, w, h) },
   { name: 'whale', generate: (count, w, h) => fitIllustration(WHALE_POINTS, STATS.whale, count, w, h) },
