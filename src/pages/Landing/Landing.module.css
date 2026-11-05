@@ -12,11 +12,6 @@
 .main { flex: 1; display: flex; flex-direction: column; }
 
 /* ── Hero ── */
-@keyframes blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
 .hero {
   position: relative;
   width: 100%;
@@ -103,23 +98,6 @@
   margin: 0 0 clamp(16px, 2.5vh, 28px);
 }
 
-.cursor {
-  display: inline-block;
-  width: 3px;
-  height: 0.82em;
-  margin-left: 3px;
-  border-radius: 2px;
-  background-color: #0d0d0d;
-  vertical-align: baseline;
-  transition:
-    width 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    height 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    border-radius 220ms ease;
-}
-
-.cursorBlinking { animation: blink 0.55s step-end 4; }
-.cursorDot { width: 8px; height: 8px; border-radius: 50%; }
-
 .heroBio {
   width: 100%;
   max-width: 610px;
@@ -128,17 +106,30 @@
   font-size: clamp(14px, 1.3vw, 16px);
   line-height: 1.7;
   color: #404040;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.heroBioVisible { opacity: 1; transform: translateY(0); }
+/* Cinematic editorial reveal — per-line mask + upward-slide reveal, used
+   for both the headline and body text. Lines are generated at runtime
+   (see splitIntoLines in index.jsx) and the split markup is discarded once
+   the reveal finishes, so none of this affects the element's final layout. */
+.lineMask {
+  display: block;
+  overflow: hidden;
+}
+
+.lineInner {
+  display: inline-block;
+  transform: translateY(112%);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.lineInnerVisible { transform: translateY(0); opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
-  .cursor { display: none; }
-  .heroBio { opacity: 1; transform: none; transition: none; }
   .heroArt { opacity: 1; transition: none; }
+  .lineInner { opacity: 1; transform: none; transition: none; }
 }
 
 /* ── Philosophy / Design Approach ── */
@@ -148,62 +139,29 @@
   max-width: 1440px;
   margin: 0 auto;
   background-color: #ffffff;
-  padding: clamp(120px, 18vh, 220px) clamp(20px, 4.5vw, 60px) clamp(80px, 12vh, 160px);
+  padding: clamp(100px, 15vh, 180px) clamp(20px, 4.5vw, 60px);
   border-radius: 20px;
   overflow: hidden;
   scroll-snap-align: start;
-}
-
-.philosophyArt {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.philosophyHalo,
-.philosophyGlow {
-  position: absolute;
-  top: 50%;
-  left: 54%;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.philosophyHalo {
-  width: min(1100px, 92vw);
-  height: min(1100px, 92vw);
-  background:
-    radial-gradient(circle at 55% 45%, rgba(169, 201, 197, 0.5) 0%, rgba(169, 201, 197, 0) 55%),
-    radial-gradient(circle at 70% 65%, rgba(156, 181, 156, 0.4) 0%, rgba(156, 181, 156, 0) 60%);
-  filter: blur(70px);
-}
-
-.philosophyGlow {
-  width: min(760px, 64vw);
-  height: min(760px, 64vw);
-  background:
-    radial-gradient(circle at 42% 38%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 30%),
-    radial-gradient(circle at 50% 48%, rgba(200, 222, 212, 0.75) 0%, rgba(200, 222, 212, 0) 48%),
-    radial-gradient(ellipse at 62% 60%, rgba(146, 173, 168, 0.5) 0%, rgba(146, 173, 168, 0) 58%),
-    radial-gradient(circle at 75% 30%, rgba(168, 197, 201, 0.45) 0%, rgba(168, 197, 201, 0) 50%),
-    radial-gradient(circle at 50% 50%, rgba(13, 13, 13, 0.04) 0%, rgba(13, 13, 13, 0) 65%);
-  filter: blur(18px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(40px, 6vw, 96px);
+  flex-wrap: wrap;
 }
 
 .philosophyContent {
-  position: relative;
-  z-index: 2;
-  max-width: 1440px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  flex: 1 1 480px;
+  max-width: 560px;
+  min-width: 0;
   gap: clamp(20px, 3vh, 28px);
 }
 
 .philosophyHeadline {
   margin: 0;
-  max-width: 560px;
   font-family: 'Merriweather', serif;
   font-weight: 400;
   font-size: clamp(28px, 3.8vw, 46px);
@@ -213,7 +171,11 @@
 }
 
 .philosophyHighlight {
-  background-color: #D9E8E1;
+  /* A pale tint of #E33E30 — the site's existing brand accent (also the
+     ParticleField's ACCENT_COLOR) and, as it turns out, the exact hue the
+     portfolio image already carries in its red book. Replaces the cooler
+     sage tint that predates the image and no longer agrees with it. */
+  background-color: #F6D9D5;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
@@ -225,6 +187,56 @@
   font-size: clamp(14px, 1.2vw, 16px);
   line-height: 1.75;
   color: #606060;
+}
+
+.philosophyVisual {
+  position: relative;
+  flex: 0 1 460px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.philosophyHalo,
+.philosophyGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.philosophyHalo {
+  /* Warm red wash pulled from the image's dominant chromatic colour
+     (the book, ~#E33E30) — the same accent red already used in the
+     hero's particle engine, so the focal glow and the image agree. */
+  width: min(620px, 85%);
+  height: min(620px, 85%);
+  background: radial-gradient(circle, rgba(227, 62, 48, 0.16) 0%, rgba(227, 62, 48, 0) 62%);
+  filter: blur(50px);
+}
+
+.philosophyGlow {
+  /* Warm neutral lift echoing the image's halftone greys/taupes and the
+     site's existing #E6E4E0 card tone, so the glow reads as one warm
+     family rather than a plain coloured blob. */
+  width: min(440px, 62%);
+  height: min(440px, 62%);
+  background:
+    radial-gradient(circle at 46% 42%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 38%),
+    radial-gradient(circle at 54% 56%, rgba(176, 168, 144, 0.3) 0%, rgba(176, 168, 144, 0) 55%);
+  filter: blur(16px);
+}
+
+.philosophyImage {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  display: block;
 }
 
 /* ── Case Studies Section ── */
@@ -329,7 +341,8 @@
   .heroArt { max-width: 280px; }
   .philosophy { padding: clamp(80px, 12vh, 140px) clamp(20px, 4.5vw, 60px); }
   .philosophyHeadline, .philosophyBody { max-width: 460px; }
-  .philosophyHalo, .philosophyGlow { left: 62%; }
+  .philosophyVisual { flex: 1 1 100%; order: 2; }
+  .philosophyImage { max-width: 280px; }
   .caseInner { grid-template-columns: 1fr; gap: clamp(32px, 5vw, 48px); }
   .caseTitle { font-size: clamp(22px, 5vw, 34px); }
 }
@@ -338,7 +351,6 @@
   .philosophy { padding: clamp(64px, 10vh, 100px) 20px; }
   .philosophyHeadline { font-size: clamp(24px, 7vw, 30px); max-width: 100%; }
   .philosophyBody { max-width: 100%; }
-  .philosophyHalo, .philosophyGlow { left: 50%; top: 42%; }
   .caseSection { padding: 0 0 clamp(60px, 8vh, 96px); }
   .caseBtn { width: 100%; justify-content: center; }
 }
