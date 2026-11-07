@@ -113,10 +113,13 @@ const ACCENT_RATIO = 0.3
 const SIZE_SCALE = 0.95
 
 export class ParticleSystem {
-  constructor({ width, height, count, color = '13, 13, 13', seed = 1 }) {
+  constructor({ width, height, count, baseCount = count, color = '13, 13, 13', seed = 1 }) {
     this.width = width
     this.height = height
     this.count = count
+    // Population the long-standing (non-leaf) compositions use; the rest of
+    // the pool is invisible during them — see _nextComposition.
+    this.baseCount = Math.min(baseCount, count)
     this.color = color
     this.rng = mulberry32(seed)
     this.noise = new SimplexNoise(seed)
@@ -155,6 +158,15 @@ export class ParticleSystem {
         microSpeed: HOLD_SPEED_MIN + rng() * HOLD_SPEED_RANGE,
         // Finalized below as an exact count, not sampled per-particle.
         isAccent: false,
+        // Position in a random order (set below). A composition that uses
+        // K particles uses ranks 0..K-1, and accents are spread evenly
+        // along rank, so every such subset keeps the exact 30:70 split.
+        rank: i,
+        // Visibility (alpha multiplier) and ink weight (dot size/opacity
+        // multiplier, 1 = neutral) — start/target pairs are eased with the
+        // same transition curve as position, so nothing pops.
+        a: 1, sa: 1, ta: 1,
+        wt: 1, sw: 1, tw: 1,
       })
     }
 
@@ -164,14 +176,18 @@ export class ParticleSystem {
     // to each particle's (already random) position, so accent particles
     // land scattered throughout any composition rather than clustering,
     // while the 30:70 split itself is exact.
-    const accentCount = Math.round(count * ACCENT_RATIO)
     const indices = this.particles.map((_, i) => i)
     for (let i = indices.length - 1; i > 0; i--) {
       const j = Math.floor(rng() * (i + 1))
       const tmp = indices[i]; indices[i] = indices[j]; indices[j] = tmp
     }
-    for (let k = 0; k < accentCount; k++) {
-      this.particles[indices[k]].isAccent = true
+    for (let r = 0; r < count; r++) {
+      const p = this.particles[indices[r]]
+      p.rank = r
+      p.isAccent = Math.round((r + 1) * ACCENT_RATIO) > Math.round(r * ACCENT_RATIO)
+      // Particles beyond the base population start hidden, so the opening
+      // scatter looks exactly as it did before the pool was enlarged.
+      if (r >= this.baseCount) { p.a = 0; p.sa = 0; p.ta = 0 }
     }
   }
 
@@ -194,9 +210,10 @@ export class ParticleSystem {
   // Breakpoint crossed → particle population changes. Reseed cleanly
   // and re-enter a short chaos beat rather than trying to splice
   // particles in/out of an existing composition.
-  setCount(count) {
-    if (count === this.count) return
+  setCount(count, baseCount = count) {
+    if (count === this.count && baseCount === this.baseCount) return
     this.count = count
+    this.baseCount = Math.min(baseCount, count)
     this._initParticles()
     this.phase = PHASE.CHAOS
     this.phaseElapsed = 0
@@ -208,13 +225,28 @@ export class ParticleSystem {
     const def = defs[this.compIndex % defs.length]
     const lapSeed = 1000 + this.cycleIndex * 97 + this.compIndex * 13
     const localRng = mulberry32(lapSeed)
-    const targets = def.generate(this.count, this.width, this.height, localRng, this.noise)
-    assignTargets(this.particles, targets)
-    // Snapshot each particle's current position as the interpolation
-    // start — the upcoming transition eases from here to tx/ty.
+    // Only the first K ranks take part in this composition; the others are
+    // parked on one of its targets and faded out (alpha 0) for the duration.
+    const K = Math.max(1, Math.min(this.count, def.active ? def.active(this.count, this.baseCount) : this.count))
+    const targets = def.generate(K, this.width, this.height, localRng, this.noise)
+    const live = K === this.count ? this.particles : this.particles.filter((p) => p.rank < K)
+    assignTargets(live, targets)
     for (const p of this.particles) {
+      // Snapshot each particle's current position/alpha/weight as the
+      // interpolation start — the upcoming transition eases from here.
       p.sx = p.x
       p.sy = p.y
+      p.sa = p.a
+      p.sw = p.wt
+      if (p.rank < K) {
+        p.ta = 1
+      } else {
+        const t = targets[p.rank % K]
+        p.tx = t.x
+        p.ty = t.y
+        p.ta = 0
+        p.tw = 1
+      }
     }
     this.compIndex++
     if (this.compIndex % defs.length === 0) this.cycleIndex++
@@ -233,6 +265,8 @@ export class ParticleSystem {
       p.y = p.ty
       p.vx = 0
       p.vy = 0
+      p.a = p.ta
+      p.wt = p.tw
     }
   }
 
@@ -283,6 +317,8 @@ export class ParticleSystem {
         const [ox, oy] = microOffset(this.noise, p, t)
         p.x = lerp(p.sx, p.tx, eased) + ox * wobbleAmp
         p.y = lerp(p.sy, p.ty, eased) + oy * wobbleAmp
+        p.a = lerp(p.sa, p.ta, eased)
+        p.wt = lerp(p.sw, p.tw, eased)
         p.vx = 0
         p.vy = 0
       }
@@ -297,6 +333,8 @@ export class ParticleSystem {
       const rampIn = smoothStep(this.phaseElapsed / HOLD_RAMP_IN)
       for (const p of this.particles) {
         const [ox, oy] = microOffset(this.noise, p, t)
+        p.a = p.ta
+        p.wt = p.tw
         const amp = p.microAmp * rampIn
         p.x = p.tx + ox * amp
         p.y = p.ty + oy * amp
@@ -310,11 +348,17 @@ export class ParticleSystem {
     ctx.clearRect(0, 0, this.width, this.height)
     const baseFill = `rgba(${this.color}, 1)`
     const accentFill = `rgba(${ACCENT_COLOR}, 1)`
+    // Spacing was calibrated at ~460px wide; grow dots slightly on larger
+    // canvases (count is capped by illustration pools) to keep density.
+    const k = Math.min(Math.max(this.width / 460, 1), 1.22)
     for (const p of this.particles) {
-      ctx.globalAlpha = p.opacity
+      if (p.a < 0.01) continue
+      // Ink weight (1 for every original composition): scales opacity and
+      // radius so dense, dark regions of a stippled drawing read dark.
+      ctx.globalAlpha = Math.min(1, p.opacity * p.wt) * p.a
       ctx.fillStyle = p.isAccent ? accentFill : baseFill
       ctx.beginPath()
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
+      ctx.arc(p.x, p.y, p.size * k * (p.wt === 1 ? 1 : Math.sqrt(p.wt)), 0, Math.PI * 2)
       ctx.fill()
     }
     ctx.globalAlpha = 1

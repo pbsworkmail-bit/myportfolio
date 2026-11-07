@@ -6,7 +6,7 @@ import styles from './ParticleField.module.css'
 // at 460px on desktop by .heroArt, down to 280px/less on the hero's mobile
 // breakpoint) — not the viewport width — since that's the box actually
 // being populated. 800 is the desktop ceiling because it's below every
-// illustration's own pool size — the smallest is bird's 826 points (see
+// illustration's own pool size — the smallest is the dandelion's 2000-point pool (see
 // illustrations.js: contour-traced structure points + density-weighted
 // fill) — so the count never exceeds what a given illustration can
 // supply. Going higher would force the thin fallback padding in
@@ -16,13 +16,26 @@ import styles from './ParticleField.module.css'
 // particle-size-calibrated spacing, so even at this same shared count
 // their actually-rendered subset is drawn from a far less overlap-prone
 // distribution than before.
-function getParticleCount(width) {
+function getBaseParticleCount(width) {
   const lowPower = typeof navigator !== 'undefined' && navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4
   let base
   if (width <= 220) base = 215
   else if (width <= 340) base = 345
   else base = 800
   return lowPower ? Math.round(base * 0.75) : base
+}
+
+// The Monstera leaf, the dandelion and the dotwork flower are dense stipples (tone, splits and midrib are all
+// expressed through density), and measured against the reference drawing
+// its fidelity climbs steeply up to ~2x the base population before
+// flattening. So the shared pool is enlarged by this factor; every other
+// composition keeps using exactly the base population (see `active` in
+// compositions.js) and the surplus particles stay invisible during them.
+const LEAF_POOL_FACTOR = 2.25
+
+function getParticleCounts(width) {
+  const baseCount = getBaseParticleCount(width)
+  return { baseCount, count: Math.round(baseCount * LEAF_POOL_FACTOR) }
 }
 
 export default function ParticleField() {
@@ -58,7 +71,8 @@ export default function ParticleField() {
     const { w, h } = measure()
     applyCanvasSize(w, h)
 
-    const system = new ParticleSystem({ width: w, height: h, count: getParticleCount(w), seed: 11 })
+    const initial = getParticleCounts(w)
+    const system = new ParticleSystem({ width: w, height: h, count: initial.count, baseCount: initial.baseCount, seed: 11 })
 
     let rafId = null
     let visible = true
@@ -92,8 +106,8 @@ export default function ParticleField() {
         const next = measure()
         applyCanvasSize(next.w, next.h)
         system.resize(next.w, next.h)
-        const nextCount = getParticleCount(next.w)
-        if (nextCount !== system.count) system.setCount(nextCount)
+        const nextCounts = getParticleCounts(next.w)
+        if (nextCounts.count !== system.count || nextCounts.baseCount !== system.baseCount) system.setCount(nextCounts.count, nextCounts.baseCount)
         if (reduced) system.draw(ctx)
       }, 180)
     })

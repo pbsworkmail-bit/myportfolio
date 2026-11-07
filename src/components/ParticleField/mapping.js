@@ -97,6 +97,7 @@ export function assignTargets(particles, targets) {
       claimed[best] = 1
       p.tx = targets[best].x
       p.ty = targets[best].y
+      p.tw = targets[best].w ?? 1
     }
   }
 
@@ -105,6 +106,7 @@ export function assignTargets(particles, targets) {
       const t = targets[i % targets.length]
       particles[i].tx = t.x
       particles[i].ty = t.y
+      particles[i].tw = t.w ?? 1
     }
   }
 }
