@@ -92,12 +92,23 @@
   width: 100%;
   max-width: 610px;
   font-family: 'Merriweather', serif;
-  font-size: clamp(28px, 6vw, 60px);
+  /* Fixed three-line composition: the widest line ("simpler is rarely") is
+     ~7.75em wide in Merriweather (8 used for a little slack), so size the type to the width the hero
+     actually has (viewport − side padding − ~16px scrollbar allowance) rather
+     than letting the text re-wrap. Capped at the original 60px. */
+  font-size: min(60px, calc((100vw - 16px - 2 * clamp(20px, 4.5vw, 60px)) / 8));
   font-weight: 400;
   color: #0d0d0d;
   line-height: 1.25;
   margin: 0 0 clamp(16px, 2.5vh, 28px);
 }
+
+.heroLine {
+  display: block;
+  white-space: nowrap;
+}
+
+.heroName .lineInner { white-space: nowrap; }
 
 .heroBio {
   width: 100%;
@@ -360,8 +371,13 @@
   .heroVisual, .heroArt { max-width: 460px; }
 }
 @media (max-width: 900px) {
-  .heroName { margin: 0 0 clamp(14px, 2vh, 20px); }
+  /* Small screens: title → animation (centred in the viewport) → content.
+     heroContent dissolves so its title and bio can sit either side of the art. */
+  .hero { gap: clamp(20px, 3.5vh, 32px); justify-content: center; align-content: center; }
+  .heroContent { display: contents; }
+  .heroName { order: 1; margin: 0; }
   .heroVisual { flex: 1 1 100%; max-width: none; order: 2; }
+  .heroBio { order: 3; }
   .heroArt { max-width: 280px; }
   .philosophy { padding: clamp(80px, 12vh, 140px) clamp(20px, 4.5vw, 60px); }
   .philosophyHeadline, .philosophyBody { max-width: 460px; }

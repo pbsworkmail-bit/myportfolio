@@ -6,7 +6,11 @@ import ParticleField from '../../components/ParticleField'
 import styles from './Landing.module.css'
 
 const BASE = import.meta.env.BASE_URL
-const HERO_HEADLINE = 'Making things simpler is rarely simple'
+// The headline's composition is fixed: always these three lines, at every
+// viewport width. Lines never re-wrap (see .heroLine in Landing.module.css);
+// the font size scales instead so the widest line always fits.
+const HERO_HEADLINE_LINES = ['Making things', 'simpler is rarely', 'simple']
+const HERO_HEADLINE = HERO_HEADLINE_LINES.join(' ')
 const HERO_BODY =
   "I'm Praveen Babu, a Product Designer who works on complex B2B software, from contact centres to CRM. " +
   "Complicated doesn't always mean unnecessary. Some of it is the problem itself, so I understand it first, " +
@@ -87,6 +91,35 @@ function splitIntoLines(el, text, lineClass, innerClass) {
     // however long the reveal animation runs. Breaks copy/paste, Ctrl+F,
     // and anything else reading the element's text during that window.
     if (lineIndex < lines.length - 1) el.appendChild(document.createTextNode(' '))
+    return inner
+  })
+}
+
+// Plain (final-state) headline: one non-wrapping block per fixed line.
+function setHeadlineLines(el) {
+  el.textContent = ''
+  HERO_HEADLINE_LINES.forEach((text, i) => {
+    const line = document.createElement('span')
+    line.className = styles.heroLine
+    line.textContent = text
+    el.appendChild(line)
+    if (i < HERO_HEADLINE_LINES.length - 1) el.appendChild(document.createTextNode(' '))
+  })
+}
+
+// Same per-line mask/slide structure as splitIntoLines, but the lines come from
+// the fixed composition rather than from measuring how the text happened to wrap.
+function maskHeadlineLines(el, lineClass, innerClass) {
+  el.textContent = ''
+  return HERO_HEADLINE_LINES.map((text, i) => {
+    const mask = document.createElement('span')
+    mask.className = `${lineClass} `
+    const inner = document.createElement('span')
+    inner.className = innerClass
+    inner.textContent = text
+    mask.appendChild(inner)
+    el.appendChild(mask)
+    if (i < HERO_HEADLINE_LINES.length - 1) el.appendChild(document.createTextNode(' '))
     return inner
   })
 }
@@ -175,7 +208,7 @@ export default function Landing() {
     if (!headlineEl || !bodyEl) return
 
     const restoreFinal = () => {
-      headlineEl.textContent = HERO_HEADLINE
+      setHeadlineLines(headlineEl)
       bodyEl.textContent = HERO_BODY
     }
 
@@ -201,7 +234,7 @@ export default function Landing() {
       bodyEl.style.opacity = ''
 
       try {
-        const headlineLines = splitIntoLines(headlineEl, HERO_HEADLINE, styles.lineMask, styles.lineInner)
+        const headlineLines = maskHeadlineLines(headlineEl, styles.lineMask, styles.lineInner)
         const bodyLines = splitIntoLines(bodyEl, HERO_BODY, styles.lineMask, styles.lineInner)
 
         const revealLines = (lines, startDelay, stagger) => {
@@ -259,7 +292,11 @@ export default function Landing() {
         {/* ── Hero ── */}
         <section className={styles.hero}>
           <div className={styles.heroContent}>
-            <h1 ref={headlineRef} className={styles.heroName}>{HERO_HEADLINE}</h1>
+            <h1 ref={headlineRef} className={styles.heroName} aria-label={HERO_HEADLINE}>
+              {HERO_HEADLINE_LINES.map((line) => (
+                <span key={line} className={styles.heroLine}>{line}</span>
+              ))}
+            </h1>
             <p ref={bodyRef} className={styles.heroBio}>{HERO_BODY}</p>
           </div>
 
