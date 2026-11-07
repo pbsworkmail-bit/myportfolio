@@ -1,11 +1,23 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import styles from './Footer.module.css'
 
-// TODO: replace with the real LinkedIn profile URL and email address
-const LINKEDIN_URL = '#'
-const EMAIL = '#'
+const LINKEDIN_URL = 'https://www.linkedin.com/in/praveenbabubs'
 
 export default function Footer() {
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+
+  // HashRouter owns the URL hash, so anchor links won't work — scroll by id,
+  // or navigate home and let the Landing page scroll on arrival.
+  const goToWork = (e) => {
+    e.preventDefault()
+    if (pathname === '/') {
+      document.getElementById('case-studies')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+      navigate('/', { state: { scrollTo: 'case-studies' } })
+    }
+  }
+
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
@@ -21,14 +33,13 @@ export default function Footer() {
           </Link>
 
           <nav className={styles.links}>
-            <NavLink to="/" end className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
+            <NavLink to="/" end onClick={goToWork} className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
               Work
             </NavLink>
             <NavLink to="/about" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
               About
             </NavLink>
             <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className={styles.link}>LinkedIn</a>
-            <a href={EMAIL} className={styles.link}>Email</a>
           </nav>
         </div>
 

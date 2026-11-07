@@ -4,7 +4,6 @@
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
-  scroll-snap-type: y proximity;
   scroll-padding-top: 64px;
   background-color: #faf9f5;
 }
@@ -21,10 +20,9 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: clamp(40px, 6vw, 96px);
   padding: clamp(48px, 8vh, 120px) clamp(20px, 4.5vw, 60px);
-  scroll-snap-align: start;
   flex-wrap: wrap;
 }
 
@@ -72,14 +70,17 @@
 }
 
 .heroVisual {
-  flex: 0 1 460px;
+  /* Basis stays 460px so the wrap breakpoint is unchanged; it only grows into
+     spare room, up to 560px. */
+  flex: 1 1 460px;
+  max-width: 560px;
   display: flex;
   justify-content: center;
 }
 
 .heroArt {
   width: 100%;
-  max-width: 460px;
+  max-width: 560px;
   aspect-ratio: 622 / 566;
   opacity: 0;
   transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
@@ -121,7 +122,7 @@
   display: inline-block;
   transform: translateY(112%);
   opacity: 0;
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform, opacity;
 }
 
@@ -138,11 +139,10 @@
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: #E6E4E0;
   padding: clamp(100px, 15vh, 180px) clamp(20px, 4.5vw, 60px);
   border-radius: 20px;
   overflow: hidden;
-  scroll-snap-align: start;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -244,12 +244,11 @@
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding: clamp(64px, 9vh, 120px) clamp(20px, 4.5vw, 60px) 0;
-  margin-bottom: clamp(24px, 4vh, 40px);
-  scroll-snap-align: start;
+  padding: clamp(96px, 14vh, 180px) clamp(20px, 4.5vw, 60px) 0;
+  margin-bottom: clamp(48px, 7vh, 88px);
 }
 
-.caseSection { padding: 0 0 clamp(80px, 10vh, 120px); scroll-snap-align: start; }
+.caseSection { padding: 0 0 clamp(80px, 10vh, 120px); }
 
 .caseInner {
   max-width: 1440px;
@@ -276,6 +275,25 @@
   letter-spacing: 0.01em;
   color: #0d0d0d;
 }
+
+.caseHeadline {
+  margin: 0;
+  max-width: 820px;
+  font-family: 'Merriweather', serif;
+  font-weight: 400;
+  font-size: clamp(28px, 3.8vw, 46px);
+  line-height: 1.32;
+  color: #0d0d0d;
+  text-wrap: balance;
+}
+
+.caseHeadline em {
+  font-style: normal;
+  background-color: #D4F6D0;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
 
 .caseTitle {
   margin: 0;
@@ -335,21 +353,35 @@
 }
 
 /* ── Responsive ── */
+/* Below ~1180px the hero columns no longer fit side by side and wrap, so keep
+   the original centred, 460px composition there. */
+@media (max-width: 1180px) {
+  .hero { justify-content: center; }
+  .heroVisual, .heroArt { max-width: 460px; }
+}
 @media (max-width: 900px) {
   .heroName { margin: 0 0 clamp(14px, 2vh, 20px); }
-  .heroVisual { flex: 1 1 100%; order: 2; }
+  .heroVisual { flex: 1 1 100%; max-width: none; order: 2; }
   .heroArt { max-width: 280px; }
   .philosophy { padding: clamp(80px, 12vh, 140px) clamp(20px, 4.5vw, 60px); }
   .philosophyHeadline, .philosophyBody { max-width: 460px; }
   .philosophyVisual { flex: 1 1 100%; order: 2; }
   .philosophyImage { max-width: 280px; }
-  .caseInner { grid-template-columns: 1fr; gap: clamp(32px, 5vw, 48px); }
+  /* Mobile/tablet order: label → title → image → description → CTA */
+  .caseInner { grid-template-columns: 1fr; gap: clamp(12px, 2vh, 18px); }
+  .caseLeft { display: contents; }
+  .caseLabel { order: 1; }
+  .caseTitle { order: 2; }
+  .caseRight { order: 3; margin: clamp(4px, 1vh, 8px) 0 clamp(8px, 1.5vh, 14px); }
+  .caseDesc { order: 4; }
+  .caseBtn { order: 5; justify-self: start; margin-top: 4px; }
   .caseTitle { font-size: clamp(22px, 5vw, 34px); }
 }
 
 @media (max-width: 480px) {
   .philosophy { padding: clamp(64px, 10vh, 100px) 20px; }
   .philosophyHeadline { font-size: clamp(24px, 7vw, 30px); max-width: 100%; }
+  .caseHeadline { font-size: clamp(24px, 7vw, 30px); }
   .philosophyBody { max-width: 100%; }
   .caseSection { padding: 0 0 clamp(60px, 8vh, 96px); }
   .caseBtn { width: 100%; justify-content: center; }

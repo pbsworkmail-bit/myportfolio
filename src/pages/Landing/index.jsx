@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import ParticleField from '../../components/ParticleField'
@@ -17,12 +17,24 @@ const HERO_BODY =
 //   2. Brief pause once the headline has settled
 //   3. Body: the same masked reveal, line-by-line, starting after the pause
 //   4. Final resting state: plain static text, no animation machinery left behind
-const LINE_DURATION_MS = 700
+//
+// Timing is slower than a typical UI transition on purpose: Material
+// Design's own guidance caps interactive transitions at ~375-400ms
+// specifically because those block a pending user action — a one-time
+// hero entrance isn't that, so editorial/luxury sites run noticeably
+// slower. Line-level references back this up directly: a documented
+// motion-design reference for paragraph reveals cites ~200-300ms stagger
+// between lines, and a production SplitText-based reveal component
+// defaults to 600ms per line with a 100ms stagger. The previous values
+// here (700ms duration, 90-120ms stagger) sat at or below the fast end of
+// that range. LINE_DURATION_MS must stay in sync with .lineInner's
+// transition-duration in Landing.module.css (currently 0.95s).
+const LINE_DURATION_MS = 950
 const LINE_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)' // reused from this site's existing fade curve
-const HEADLINE_START_DELAY_MS = 300
-const HEADLINE_LINE_STAGGER_MS = 120
-const PHASE_PAUSE_MS = 220
-const BODY_LINE_STAGGER_MS = 90
+const HEADLINE_START_DELAY_MS = 400
+const HEADLINE_LINE_STAGGER_MS = 200
+const PHASE_PAUSE_MS = 350
+const BODY_LINE_STAGGER_MS = 160
 
 // Splits an element's text into per-line <span> wrappers so each visual line
 // can be masked and animated independently, then returns the line elements.
@@ -105,6 +117,17 @@ export default function Landing() {
   const pageRef   = useRef(null)
   const ctaRef    = useRef(null)
   const artRef    = useRef(null)
+
+  const location = useLocation()
+
+  // Arriving from another page via the footer "Work" link
+  useEffect(() => {
+    if (location.state?.scrollTo !== 'case-studies') return
+    const t = setTimeout(() => {
+      caseRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
+    return () => clearTimeout(t)
+  }, [location.key, location.state])
 
   const scrollToCases = () => {
     caseRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -280,14 +303,17 @@ export default function Landing() {
         </section>
 
         {/* ── Case Studies Section ── */}
-        <div ref={caseRef} className={styles.caseSectionLabel}>
-          <p className={styles.caseLabel}>Case Studies</p>
+        <div ref={caseRef} id="case-studies" className={styles.caseSectionLabel}>
+          <h2 className={styles.caseHeadline}>
+            A few problems where the <em>right question</em> mattered more than the <em>obvious answer</em>.
+          </h2>
         </div>
         {CASE_STUDIES.map((cs, i) => (
           <section key={i} className={styles.caseSection}>
             <div className={styles.caseInner}>
 
               <div className={styles.caseLeft}>
+                <p className={styles.caseLabel}>Case Study {i + 1}</p>
                 <h2 className={styles.caseTitle}>{cs.title}</h2>
                 <p className={styles.caseDesc}>{cs.desc}</p>
                 {cs.cta && (
