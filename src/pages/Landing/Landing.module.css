@@ -299,8 +299,14 @@
   color: inherit;
   text-decoration: none;
   transition: border-color 0.3s ease;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
 }
-.caseCardLink:hover { border-color: rgba(13, 13, 13, 0.22); }
+/* Hover-only effects (border + illustration) are limited to devices that can hover,
+   so a tap on mobile does not leave them stuck on. */
+@media (hover: hover) and (pointer: fine) {
+  .caseCardLink:hover { border-color: rgba(13, 13, 13, 0.22); }
+}
 .caseCardLink:focus-visible { outline: 2px solid #0d0d0d; outline-offset: 4px; }
 
 .caseHead {
@@ -346,7 +352,34 @@
 .caseCardLink .caseVisual > * {
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.caseCardLink:hover .caseVisual > * { transform: scale(1.015); }
+@media (hover: hover) and (pointer: fine) {
+  .caseCardLink:hover .caseVisual > * { transform: scale(1.015); }
+}
+
+/* Circular arrow, top-right corner, top-aligned with the label/title: outlined by default, solid black on hover,
+   keyboard focus, or press (the press state is the mobile tap feedback). */
+.caseArrow {
+  --arrow-size: 36px;
+  position: absolute;
+  right: clamp(20px, 2.6vw, 36px);
+  top: clamp(20px, 2.6vw, 36px);
+  width: var(--arrow-size);
+  height: var(--arrow-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(13, 13, 13, 0.55);
+  border-radius: 50%;
+  background-color: transparent;
+  color: #0d0d0d;
+  pointer-events: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .caseCardLink:hover .caseArrow { background-color: #0d0d0d; border-color: #0d0d0d; color: #fff; }
+}
+.caseCardLink:focus-visible .caseArrow,
+.caseCardLink:active .caseArrow { background-color: #0d0d0d; border-color: #0d0d0d; color: #fff; }
 
 .caseDesc {
   margin: 0;
@@ -406,7 +439,7 @@
   .philosophy { padding: clamp(64px, 10vh, 100px) 20px; }
   .philosophyHeadline { font-size: clamp(24px, 7vw, 30px); max-width: 100%; }
   .caseHeadline { font-size: clamp(24px, 7vw, 30px); }
-  .caseTitle { max-width: 100%; }
+  .caseTitle { max-width: calc(100% - 52px); } /* clear of the corner arrow */
   .philosophyBody { max-width: 100%; }
   .caseGrid { padding-bottom: clamp(60px, 8vh, 96px); }
 }
