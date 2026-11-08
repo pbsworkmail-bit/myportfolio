@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import ParticleField from '../../components/ParticleField'
+import DotNetwork from '../../components/DotNetwork'
+import GeometryEvolution from '../../components/GeometryEvolution'
 import styles from './Landing.module.css'
 
 const BASE = import.meta.env.BASE_URL
@@ -127,15 +129,17 @@ function maskHeadlineLines(el, lineClass, innerClass) {
 const CASE_STUDIES = [
   {
     title: "A seller-activation layer for a B2B CRM Deals module",
-    desc: "Deal decay is a perception and behavioural problem before it is a data problem — the signals are often already sitting in the CRM, unread. Reps scanning the same pipeline every week stop noticing the deal that's gone quiet for a month; the silence that should trigger action instead hides it. The brief surfaces what the system already knew, before the deal is gone rather than after.",
-    cta: { to: '/worktual', label: 'View Case study' },
+    desc: "Deal decay is a perception and behavioural problem before it is a data problem — the signals are often already sitting in the CRM, unread. The brief surfaces what the system already knew, before the deal is gone rather than after.",
+    to: '/worktual',
+    animation: 'dot-network',
     image: 'ai-brief-03.png',
     alt: 'AI-generated deal brief — CRM interface showing deal health and recommended actions',
   },
   {
     title: "Adoption is the perennial #1 challenge, but it's a symptom.",
     desc: "Teams default to custom patterns because the design system is run as a shipped artifact, not a product. Success means voluntary adoption rises and integration time drops.",
-    cta: { to: '/adoption', label: 'View Case study' },
+    to: '/adoption',
+    animation: 'geometry',
     image: 'ds-adoption-cover.png',
     alt: 'Design system case study cover — "Trust Doesn\'t Translate Into Adoption"',
   },
@@ -165,6 +169,23 @@ export default function Landing() {
   const scrollToCases = () => {
     caseRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
+
+  // Scroll reveal for everything below the hero (same effect as the case study pages)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -48px 0px' }
+    )
+    pageRef.current?.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     const page = pageRef.current
@@ -316,7 +337,7 @@ export default function Landing() {
 
         {/* ── Philosophy / Design Approach ── */}
         <section className={styles.philosophy}>
-          <div className={styles.philosophyContent}>
+          <div className={styles.philosophyContent} data-reveal>
             <h2 className={styles.philosophyHeadline}>
               Good design doesn't make everything simple.{' '}
               <span className={styles.philosophyHighlight}>It makes everything as simple as it should be.</span>
@@ -326,7 +347,7 @@ export default function Landing() {
               right problem, and the right way to solve it.
             </p>
           </div>
-          <div className={styles.philosophyVisual}>
+          <div className={styles.philosophyVisual} data-reveal data-delay="2">
             <span className={styles.philosophyHalo} aria-hidden="true" />
             <span className={styles.philosophyGlow} aria-hidden="true" />
             <img
@@ -341,38 +362,36 @@ export default function Landing() {
 
         {/* ── Case Studies Section ── */}
         <div ref={caseRef} id="case-studies" className={styles.caseSectionLabel}>
-          <h2 className={styles.caseHeadline}>
+          <h2 className={styles.caseHeadline} data-reveal>
             A few problems where the <em>right question</em> mattered more than the <em>obvious answer</em>.
           </h2>
         </div>
-        {CASE_STUDIES.map((cs, i) => (
-          <section key={i} className={styles.caseSection}>
-            <div className={styles.caseInner}>
-
-              <div className={styles.caseLeft}>
+        <div className={styles.caseGrid}>
+          {CASE_STUDIES.map((cs, i) => (
+            <Link key={i} to={cs.to} className={styles.caseCardLink} data-reveal data-delay={i ? '2' : undefined}>
+              <div className={styles.caseHead}>
                 <p className={styles.caseLabel}>Case Study {i + 1}</p>
-                <h2 className={styles.caseTitle}>{cs.title}</h2>
-                <p className={styles.caseDesc}>{cs.desc}</p>
-                {cs.cta && (
-                  <Link to={cs.cta.to} className={styles.caseBtn}>
-                    {cs.cta.label}
-                  </Link>
+                <h3 className={styles.caseTitle}>{cs.title}</h3>
+              </div>
+              <div className={styles.caseVisual}>
+                {cs.animation === 'dot-network' ? (
+                  <DotNetwork className={styles.caseCardCanvas} label={cs.alt} />
+                ) : cs.animation === 'geometry' ? (
+                  <GeometryEvolution className={styles.caseCardCanvas} label={cs.alt} />
+                ) : (
+                  <div className={styles.caseCard}>
+                    <img
+                      className={styles.caseCardImage}
+                      src={cs.image ? `${BASE}${cs.image}` : undefined}
+                      alt={cs.alt}
+                    />
+                  </div>
                 )}
               </div>
-
-              <div className={styles.caseRight}>
-                <div className={styles.caseCard}>
-                  <img
-                    className={styles.caseCardImage}
-                    src={cs.image ? `${BASE}${cs.image}` : undefined}
-                    alt={cs.alt}
-                  />
-                </div>
-              </div>
-
-            </div>
-          </section>
-        ))}
+              <p className={styles.caseDesc}>{cs.desc}</p>
+            </Link>
+          ))}
+        </div>
 
       </main>
       <Footer />
